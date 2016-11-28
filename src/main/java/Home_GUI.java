@@ -26,7 +26,8 @@ public class Home_GUI extends JFrame {
         quit();
         addCustomer();
         addMovie();
-
+        viewMovies();
+        viewCustomers();
     }
 
 
@@ -34,7 +35,7 @@ public class Home_GUI extends JFrame {
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(Home_GUI.this, "Are you sure you want to exit?", "Exit", JOptionPane.OK_CANCEL_OPTION)) {
+                if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(Home_GUI.this, "Are you sure you want to quit?", "Quit", JOptionPane.OK_CANCEL_OPTION)) {
                     System.exit(0);
                 }
             }
@@ -60,6 +61,26 @@ public class Home_GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 Add_Movies_GUI newMovie = new Add_Movies_GUI(Home_GUI.this);
+            }
+        });
+    }
+
+    public void viewMovies(){
+        viewMoviesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                View_Movies_GUI viewMovie = new View_Movies_GUI(Home_GUI.this);
+            }
+        });
+    }
+
+    public void viewCustomers(){
+        viewCustomersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                View_Customers_GUI viewCustomers = new View_Customers_GUI(Home_GUI.this);
             }
         });
     }

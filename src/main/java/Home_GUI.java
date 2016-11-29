@@ -12,7 +12,7 @@ public class Home_GUI extends JFrame {
     private JButton addCustomerButton;
     private JButton viewMoviesButton;
     private JButton viewCustomersButton;
-    private JButton removeMovieButton;
+    private JButton salesButton;
     private JButton removeCustomerButton;
     private JButton quitButton;
 
@@ -28,6 +28,7 @@ public class Home_GUI extends JFrame {
         addMovie();
         viewMovies();
         viewCustomers();
+        sales();
     }
 
 
@@ -81,6 +82,15 @@ public class Home_GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 View_Customers_GUI viewCustomers = new View_Customers_GUI(Home_GUI.this);
+            }
+        });
+    }
+
+    public void sales(){
+        salesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }

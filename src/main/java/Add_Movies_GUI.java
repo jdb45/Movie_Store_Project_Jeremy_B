@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 /**
  * Created by Jeremy on 11/28/16.
@@ -11,12 +12,12 @@ public class Add_Movies_GUI extends JFrame{
     private JTextField addMovie;
     private JTextField addMovieYear;
     private JTextField addMoviePrice;
-    private JTextField addDate;
     private JComboBox movieFormat;
     private JComboBox customerCode;
     private JTextField upcBarcode;
     private JButton addMovieButton;
     private JButton exitButton;
+    private JSpinner dateSpinner;
 
     public Add_Movies_GUI(Home_GUI home_gui) {
 
@@ -28,8 +29,10 @@ public class Add_Movies_GUI extends JFrame{
         movieFormat.addItem("DVD");
         movieFormat.addItem("Blu-Ray");
         movieFormat.addItem("VHS");
+        dateSpinner.setModel(new SpinnerDateModel());
 
         exit();
+        addMovie();
     }
 
     public void exit() {
@@ -43,6 +46,45 @@ public class Add_Movies_GUI extends JFrame{
         });
     }
 
+    public void addMovie(){
+        addMovieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                String movieTitle = addMovie.getText();
+                //checking to make sure a name has been entered
+                if (movieTitle == null || movieTitle.trim().equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "Please enter a movie title");
+                }
+
+                Integer movieYear;
+                try {
+                    movieYear = Integer.parseInt(addMovieYear.getText());
+
+                } catch (NumberFormatException ne) {
+                    JOptionPane.showMessageDialog(rootPane, "Movie year needs to be a number, or can't be blank");
+                    return;
+                }
+
+                Double moviePrice;
+                try {
+                    moviePrice = Double.parseDouble(addMoviePrice.getText());
+
+                } catch (NumberFormatException ne) {
+                    JOptionPane.showMessageDialog(rootPane, "Movie price needs to be a number, or can't be blank");
+                    return;
+                }
+
+                JOptionPane.showMessageDialog(rootPane, "Successfully added Title: " + movieTitle + ", " + "Year: " + movieYear + ", "
+                      + "Format: " + movieFormat.getSelectedItem() + ", " + "Price: $" + moviePrice + " to the movie database");
+
+                //setting the values back to empty after
+                addMoviePrice.setText("");
+                addMovie.setText("");
+                addMovieYear.setText("");
+            }
+        });
+
+    }
 
 }

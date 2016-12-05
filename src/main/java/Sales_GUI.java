@@ -3,19 +3,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by Jeremy on 11/28/16.
- */
-public class View_Customers_GUI extends JFrame {
+public class Sales_GUI extends JFrame {
+
     private JPanel rootPanel;
-    private JTable viewCustomerTable;
-    private JTextField searchCustomerInput;
+    private JTable viewSalesTable;
+    private JTextField textField1;
     private JButton searchButton;
+    private JButton cashOutSaleButton;
     private JButton exitButton;
 
-
-
-    public View_Customers_GUI(Home_GUI homeForm) {
+    public Sales_GUI(Home_GUI home_gui) {
 
         setContentPane(rootPanel);
         setPreferredSize(new Dimension(500, 500));
@@ -23,17 +20,14 @@ public class View_Customers_GUI extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
-
-        viewCustomerTable.setGridColor(Color.BLACK);
-        viewCustomerTable.setModel(MovieDB.movieModel);
     }
 
     public void exit() {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(View_Customers_GUI.this, "Are you sure you want to exit?", "Exit", JOptionPane.OK_CANCEL_OPTION)) {
-                    View_Customers_GUI.this.dispose();
+                if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(Sales_GUI.this, "Are you sure you want to exit?", "Exit", JOptionPane.OK_CANCEL_OPTION)) {
+                    Sales_GUI.this.dispose();
                 }
             }
         });

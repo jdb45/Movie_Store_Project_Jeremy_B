@@ -16,7 +16,7 @@ public class Home_GUI extends JFrame {
     private JButton removeCustomerButton;
     private JButton quitButton;
 
-    public Home_GUI() {
+    public Home_GUI(Movie_StoreDB_DataModel movieModel) {
         super("Movie Store");
         setContentPane(rootPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,6 +28,7 @@ public class Home_GUI extends JFrame {
         addMovie();
         viewMovies();
         viewCustomers();
+        removeCustomers();
         sales();
     }
 
@@ -91,6 +92,18 @@ public class Home_GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                Sales_GUI salesGUI = new Sales_GUI(Home_GUI.this);
+            }
+        });
+    }
+
+
+    public void removeCustomers() {
+        removeCustomerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Remove_Customers_GUI removeCustomers = new Remove_Customers_GUI(Home_GUI.this);
             }
         });
     }

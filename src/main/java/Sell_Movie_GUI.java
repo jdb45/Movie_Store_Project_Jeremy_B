@@ -21,6 +21,9 @@ public class Sell_Movie_GUI extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
+
+        sellMovieTable.setGridColor(Color.BLACK);
+        //sellMovieTable.setModel(View_Movies_GUI.hold);
     }
 
 

@@ -43,7 +43,7 @@ public class Remove_Customers_GUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 int currentRow = removeCustomersTable.getSelectedRow();
 
-                //checking to see if a cube solver has been selected
+                //checking to see if a customer has been selected
                 if (currentRow == -1) {
                     JOptionPane.showMessageDialog(rootPane, "Please choose a customer to delete");
                 }

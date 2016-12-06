@@ -14,6 +14,7 @@ public class View_Movies_GUI extends JFrame {
     private JButton exitButton;
     private JButton sellMovieButton;
     private JButton deleteButton;
+    public static Movie_StoreDB_DataModel hold;
 
 
     public View_Movies_GUI(Home_GUI homeForm) {
@@ -24,11 +25,12 @@ public class View_Movies_GUI extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
-        removeMovie();
+        sellMovie();
         deleteMovie();
 
         movieTable.setGridColor(Color.BLACK);
         movieTable.setModel(MovieDB.movieModel);
+
     }
 
     public void exit() {
@@ -40,16 +42,6 @@ public class View_Movies_GUI extends JFrame {
         });
     }
 
-    public void removeMovie() {
-        sellMovieButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Sell_Movie_GUI newRemove = new Sell_Movie_GUI(View_Movies_GUI.this);
-            }
-        });
-    }
-
 
     public void deleteMovie() {
         deleteButton.addActionListener(new ActionListener() {
@@ -57,7 +49,7 @@ public class View_Movies_GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int currentRow = movieTable.getSelectedRow();
 
-                //checking to see if a cube solver has been selected
+                //checking to see if a movie has been selected
                 if (currentRow == -1) {
                     JOptionPane.showMessageDialog(rootPane, "Please choose a movie to delete");
 
@@ -69,6 +61,25 @@ public class View_Movies_GUI extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Error deleting movie");
                     }
+                }
+            }
+        });
+    }
+
+    public void sellMovie(){
+        sellMovieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int currentRow = movieTable.getSelectedRow();
+                //checking to see if a movie has been selected
+                if (currentRow == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Please choose a movie to sell");
+                }
+                else {
+                    //TODO get the selected movie to carry over to the selling form
+                    //hold = movieTable.convertRowIndexToModel(currentRow);
+                    Sell_Movie_GUI newRemove = new Sell_Movie_GUI(View_Movies_GUI.this);
                 }
             }
         });

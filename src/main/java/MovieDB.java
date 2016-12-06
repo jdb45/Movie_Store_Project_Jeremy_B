@@ -33,6 +33,12 @@ public class MovieDB {
     public final static String MOVIE_FORMAT_COLUMN = "movie_format";
     public final static String MOVIE_UPC_COLUMN = "upc_barcode";
 
+    public final static String SALES_TABLE_NAME = "sales";
+    public final static String SALES_DATE_COLUMN = "date_sold";
+    public final static String SALES_TOTAL_COLUMN = "total_sales";
+
+
+
     public static Movie_StoreDB_DataModel customerModel;
     public static Movie_StoreDB_DataModel movieModel;
 

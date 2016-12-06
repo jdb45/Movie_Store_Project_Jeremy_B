@@ -73,11 +73,11 @@ public class Add_Customers_GUI extends JFrame {
                 enterPhoneNumber.setText("");
 
                 System.out.println("Adding " + firstName + " " + lastName);
-                boolean insertedRow = MovieDB.movieModel.insertRow(firstName, lastName, phoneNumber);
+                boolean insertedRow = MovieDB.customerModel.insertRowCustomers(firstName, lastName, phoneNumber);
 
                 //checking to make sure the data was entered in
                 if (!insertedRow) {
-                    JOptionPane.showMessageDialog(rootPane, "Error adding new cube solver");
+                    JOptionPane.showMessageDialog(rootPane, "Error adding new customer");
                 }
 
             }

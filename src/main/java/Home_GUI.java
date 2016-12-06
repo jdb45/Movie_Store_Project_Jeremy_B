@@ -16,7 +16,7 @@ public class Home_GUI extends JFrame {
     private JButton removeCustomerButton;
     private JButton quitButton;
 
-    public Home_GUI(Movie_StoreDB_DataModel movieModel) {
+    public Home_GUI() {
         super("Movie Store");
         setContentPane(rootPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

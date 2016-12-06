@@ -25,7 +25,7 @@ public class View_Customers_GUI extends JFrame {
         exit();
 
         viewCustomerTable.setGridColor(Color.BLACK);
-        viewCustomerTable.setModel(MovieDB.movieModel);
+        viewCustomerTable.setModel(MovieDB.customerModel);
     }
 
     public void exit() {

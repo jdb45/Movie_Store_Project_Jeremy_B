@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * Created by Jeremy on 11/28/16.
@@ -29,6 +31,14 @@ public class Add_Movies_GUI extends JFrame{
         movieFormat.addItem("DVD");
         movieFormat.addItem("Blu-Ray");
         movieFormat.addItem("VHS");
+        while (true) {
+            for(int i = 0 ; i < MovieDB.customerModel.getRowCount(); i++){
+
+                customerCode.addItem(MovieDB.customerModel.getValueAt(i, 0));
+            }
+            break;
+
+        }
         dateSpinner.setModel(new SpinnerDateModel());
 
         exit();
@@ -52,6 +62,14 @@ public class Add_Movies_GUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 String movieTitle = addMovie.getText();
+                //String movieDate = String.parse(dateSpinner.getName());
+                Date currentValue = (Date) dateSpinner.getValue();
+                String movieFormatString = movieFormat.getSelectedItem().toString();
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                String movieDate = formatter.format(currentValue);
+                String holdPhone = customerCode.getSelectedItem().toString();
+                Integer phoneNumber = Integer.parseInt((holdPhone));
+                String movieUPC = upcBarcode.getText();
                 //checking to make sure a name has been entered
                 if (movieTitle == null || movieTitle.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter a movie title");
@@ -77,6 +95,13 @@ public class Add_Movies_GUI extends JFrame{
 
                 JOptionPane.showMessageDialog(rootPane, "Successfully added Title: " + movieTitle + ", " + "Year: " + movieYear + ", "
                       + "Format: " + movieFormat.getSelectedItem() + ", " + "Price: $" + moviePrice + " to the movie database");
+
+                boolean insertedRow = MovieDB.movieModel.insertRowMovies(movieTitle, movieYear, moviePrice, movieDate, movieFormatString, phoneNumber, movieUPC );
+
+                //checking to make sure the data was entered in
+                if (!insertedRow) {
+                    JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
+                }
 
                 //setting the values back to empty after
                 addMoviePrice.setText("");

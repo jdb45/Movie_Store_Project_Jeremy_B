@@ -18,12 +18,15 @@ public class View_Movies_GUI extends JFrame {
     public View_Movies_GUI(Home_GUI homeForm) {
 
         setContentPane(rootPanel);
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(1000, 500));
         pack();
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
         removeMovie();
+
+        movieTable.setGridColor(Color.BLACK);
+        movieTable.setModel(MovieDB.movieModel);
     }
 
     public void exit() {

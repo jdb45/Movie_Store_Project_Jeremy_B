@@ -89,14 +89,40 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRow(String firstName, String lastName, int phoneNumber) {
+    public boolean insertRowCustomers(String firstName, String lastName, int phoneNumber) {
 
         try {
             //inserting a new row with the information
             resultSet.moveToInsertRow();
-            resultSet.updateInt(MovieDB.PK_COLUMN, phoneNumber);
+            resultSet.updateInt(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
             resultSet.updateString(MovieDB.FIRST_NAME_COLUMN, firstName);
             resultSet.updateString(MovieDB.LAST_NAME_COLUMN, lastName);
+            resultSet.insertRow();
+            resultSet.moveToCurrentRow();
+            fireTableDataChanged();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error adding row");
+            System.out.println(e);
+            return false;
+        }
+
+    }
+
+    //returns true if successful, false if error occurs
+    public boolean insertRowMovies(String movieTitle, int movieYear, double moviePrice, String movieDate, String movieFormat, int phoneNumber, String movieUPC) {
+
+        try {
+            //inserting a new row with the information
+            resultSet.moveToInsertRow();
+            resultSet.updateInt(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
+            resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, movieTitle);
+            resultSet.updateInt(MovieDB.MOVIE_YEAR_COLUMN, movieYear);
+            resultSet.updateDouble(MovieDB.MOVIE_PRICE_COLUMN, moviePrice);
+            resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, movieDate);
+            resultSet.updateString(MovieDB.MOVIE_FORMAT_COLUMN, movieFormat);
+            resultSet.updateString(MovieDB.MOVIE_UPC_COLUMN, movieUPC);
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();

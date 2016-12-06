@@ -89,12 +89,12 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRowCustomers(String firstName, String lastName, int phoneNumber) {
+    public boolean insertRowCustomers(String firstName, String lastName, String phoneNumber) {
 
         try {
             //inserting a new row with the information
             resultSet.moveToInsertRow();
-            resultSet.updateInt(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
+            resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
             resultSet.updateString(MovieDB.FIRST_NAME_COLUMN, firstName);
             resultSet.updateString(MovieDB.LAST_NAME_COLUMN, lastName);
             resultSet.insertRow();
@@ -111,12 +111,12 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRowMovies(String movieTitle, int movieYear, double moviePrice, String movieDate, String movieFormat, int phoneNumber, String movieUPC) {
+    public boolean insertRowMovies(String movieTitle, int movieYear, double moviePrice, String movieDate, String movieFormat, String phoneNumber, String movieUPC) {
 
         try {
             //inserting a new row with the information
             resultSet.moveToInsertRow();
-            resultSet.updateInt(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
+            resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
             resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, movieTitle);
             resultSet.updateInt(MovieDB.MOVIE_YEAR_COLUMN, movieYear);
             resultSet.updateDouble(MovieDB.MOVIE_PRICE_COLUMN, moviePrice);
@@ -142,24 +142,34 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
     public void setValueAt(Object newValue, int row, int col) {
 
 
-        double newRating;
+        double newInt;
+        String newString = (String) newValue;
 
-        newRating = Double.parseDouble(newValue.toString());
+        newInt = Double.parseDouble(newValue.toString());
+
         //setting the updated values
         try {
             resultSet.absolute(row + 1);
-           // resultSet.updateDouble(CubeDB.TIME_COLUMN, newRating);
+            resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, newString);
             resultSet.updateRow();
             fireTableDataChanged();
         } catch (SQLException e) {
-            System.out.println("error changing rating " + e);
+            //System.out.println("error changing rating " + e);
+        }
+        try {
+            resultSet.absolute(row + 1);
+            resultSet.updateDouble(MovieDB.MOVIE_DATE_COLUMN, newInt);
+            resultSet.updateRow();
+            fireTableDataChanged();
+        } catch (SQLException e) {
+            //System.out.println("error changing rating " + e);
         }
 
     }
 
     //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.
     public boolean isCellEditable(int row, int col){
-        if (col == 2) {
+        if (col == 1 | col == 2 | col == 3 | col == 5 | col == 6) {
             return true;
         }
         return false;

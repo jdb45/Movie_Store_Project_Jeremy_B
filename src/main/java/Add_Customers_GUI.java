@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class Add_Customers_GUI extends JFrame {
@@ -28,6 +29,7 @@ public class Add_Customers_GUI extends JFrame {
 
                 String firstName = enterFirstName.getText();
                 String lastName = enterLastName.getText();
+                String phoneNumber = enterPhoneNumber.getText();
 
                 //checking to make sure a name has been entered
                 if (firstName == null || firstName.trim().equals("")) {
@@ -36,34 +38,18 @@ public class Add_Customers_GUI extends JFrame {
                 if (lastName == null || lastName.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter a last name");
                 }
-
-                Integer phoneNumber;
-                int count = 0;
-
-                //splitting the phone number and putting the length into a list to get a count of how many numbers are entered
-                String numberStr = enterPhoneNumber.getText();
-                int[] numHold = new int[numberStr.length()];
-                for (int i = 0; i < numberStr.length(); i++) {
-                    numHold[i] = Character.getNumericValue(numberStr.charAt(i));
+                if (phoneNumber == null || phoneNumber.trim().equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "Please enter a phone number");
                 }
 
+                //splitting the phone number and putting the length into a list to get a count of how many numbers are entered
+                String[] stringArray = phoneNumber.split("");
 
-                try {
-                    phoneNumber = Integer.parseInt(enterPhoneNumber.getText());
-
-                    //checking to make sure the phone number is 10 digits
-                    for (int i = 0; i < numHold.length; i++) {
-                        count += 1;
-                    }
-                    if (count != 10) {
+                    if (stringArray.length != 10) {
                         JOptionPane.showMessageDialog(rootPane, "Phone number needs to be 10 digits");
                         return;
                     }
 
-                } catch (NumberFormatException ne) {
-                    JOptionPane.showMessageDialog(rootPane, "Phone number needs to be a number, or can't be blank");
-                    return;
-                }
                 JOptionPane.showMessageDialog(rootPane, "Successfully added " + firstName + " " + lastName + ", " + "Phone number " + phoneNumber
                         + " to the customer database");
 

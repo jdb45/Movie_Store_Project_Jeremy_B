@@ -13,6 +13,7 @@ public class View_Movies_GUI extends JFrame {
     private JButton searchButton;
     private JButton exitButton;
     private JButton sellMovieButton;
+    private JButton deleteButton;
 
 
     public View_Movies_GUI(Home_GUI homeForm) {
@@ -24,6 +25,7 @@ public class View_Movies_GUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
         removeMovie();
+        deleteMovie();
 
         movieTable.setGridColor(Color.BLACK);
         movieTable.setModel(MovieDB.movieModel);
@@ -33,9 +35,7 @@ public class View_Movies_GUI extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(View_Movies_GUI.this, "Are you sure you want to exit?", "Exit", JOptionPane.OK_CANCEL_OPTION)) {
-                    View_Movies_GUI.this.dispose();
-                }
+                View_Movies_GUI.this.dispose();
             }
         });
     }
@@ -46,6 +46,30 @@ public class View_Movies_GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 Sell_Movie_GUI newRemove = new Sell_Movie_GUI(View_Movies_GUI.this);
+            }
+        });
+    }
+
+
+    public void deleteMovie() {
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int currentRow = movieTable.getSelectedRow();
+
+                //checking to see if a cube solver has been selected
+                if (currentRow == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Please choose a movie to delete");
+
+                }
+                else if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(View_Movies_GUI.this, "Are you sure you want to delete the Movie?", "Delete", JOptionPane.OK_CANCEL_OPTION)) {
+                    boolean deleted = MovieDB.movieModel.deleteRow(currentRow);
+                    if (deleted) {
+                        MovieDB.loadAllTables();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Error deleting movie");
+                    }
+                }
             }
         });
     }

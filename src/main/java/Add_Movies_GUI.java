@@ -67,8 +67,8 @@ public class Add_Movies_GUI extends JFrame{
                 String movieFormatString = movieFormat.getSelectedItem().toString();
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 String movieDate = formatter.format(currentValue);
-                String holdPhone = customerCode.getSelectedItem().toString();
-                Integer phoneNumber = Integer.parseInt((holdPhone));
+                String phoneNumber = customerCode.getSelectedItem().toString();
+                //Integer phoneNumber = Integer.parseInt((holdPhone));
                 String movieUPC = upcBarcode.getText();
                 //checking to make sure a name has been entered
                 if (movieTitle == null || movieTitle.trim().equals("")) {
@@ -107,6 +107,7 @@ public class Add_Movies_GUI extends JFrame{
                 addMoviePrice.setText("");
                 addMovie.setText("");
                 addMovieYear.setText("");
+                upcBarcode.setText("");
             }
         });
 

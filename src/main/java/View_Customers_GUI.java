@@ -32,9 +32,7 @@ public class View_Customers_GUI extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(View_Customers_GUI.this, "Are you sure you want to exit?", "Exit", JOptionPane.OK_CANCEL_OPTION)) {
-                    View_Customers_GUI.this.dispose();
-                }
+                View_Customers_GUI.this.dispose();
             }
         });
     }

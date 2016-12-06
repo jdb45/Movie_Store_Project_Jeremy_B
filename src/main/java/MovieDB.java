@@ -117,7 +117,7 @@ public class MovieDB {
             if (!customersTableExists()) {
 
                 //Create tables in the database
-                String createCustomerTableSQL = "CREATE TABLE " + CUSTOMER_TABLE_NAME + " (" + CUSTOMER_CODE_COLUMN + " INT(10), " + FIRST_NAME_COLUMN + " VARCHAR(75), " + LAST_NAME_COLUMN + " VARCHAR(75) , PRIMARY KEY(" + CUSTOMER_CODE_COLUMN + "))";
+                String createCustomerTableSQL = "CREATE TABLE " + CUSTOMER_TABLE_NAME + " (" + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + FIRST_NAME_COLUMN + " VARCHAR(75), " + LAST_NAME_COLUMN + " VARCHAR(75) , PRIMARY KEY(" + CUSTOMER_CODE_COLUMN + "))";
                 System.out.println(createCustomerTableSQL);
                 statementCustomer.executeUpdate(createCustomerTableSQL);
 
@@ -126,7 +126,7 @@ public class MovieDB {
             else if (!moviesTableExists()){
                 //Create tables in the database
                 String createMovieTableSQL = "CREATE TABLE " + MOVIE_TABLE_NAME + " (" + MOVIE_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + MOVIE_YEAR_COLUMN + " INT(4), " +
-                        MOVIE_PRICE_COLUMN + " DOUBLE , "+  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " INT(10), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
+                        MOVIE_PRICE_COLUMN + " DOUBLE , "+  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
                 System.out.println(createMovieTableSQL);
                 statementMovie.executeUpdate(createMovieTableSQL);
 

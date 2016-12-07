@@ -12,6 +12,7 @@ public class Remove_Customers_GUI extends JFrame{
     private JButton exitButton;
 
 
+    //TODO add metadata
     public Remove_Customers_GUI(Home_GUI home_gui) {
 
         setContentPane(rootPanel);

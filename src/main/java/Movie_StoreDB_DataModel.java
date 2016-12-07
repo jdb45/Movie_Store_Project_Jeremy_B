@@ -111,14 +111,14 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRowMovies(String movieTitle, int movieYear, double moviePrice, String movieDate, String movieFormat, String phoneNumber, String movieUPC) {
+    public boolean insertRowMovies(String movieTitle, String movieYear, double moviePrice, String movieDate, String movieFormat, String phoneNumber, String movieUPC) {
 
         try {
             //inserting a new row with the information
             resultSet.moveToInsertRow();
             resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
             resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, movieTitle);
-            resultSet.updateInt(MovieDB.MOVIE_YEAR_COLUMN, movieYear);
+            resultSet.updateString(MovieDB.MOVIE_YEAR_COLUMN, movieYear);
             resultSet.updateDouble(MovieDB.MOVIE_PRICE_COLUMN, moviePrice);
             resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, movieDate);
             resultSet.updateString(MovieDB.MOVIE_FORMAT_COLUMN, movieFormat);
@@ -136,43 +136,128 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
     }
 
-
+    //TODO make this not have to be hard coded and not look awful
     @Override
-    //This method is called when user edits an editable cell
-    public void setValueAt(Object newValue, int row, int col) {
+    public void setValueAt(Object newValue, int row, int col)
+    {
 
-
-        double newInt;
-        String newString = (String) newValue;
-
-        newInt = Double.parseDouble(newValue.toString());
-
-        //setting the updated values
         try {
-            resultSet.absolute(row + 1);
-            resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, newString);
-            resultSet.updateRow();
-            fireTableDataChanged();
-        } catch (SQLException e) {
-            //System.out.println("error changing rating " + e);
-        }
-        try {
-            resultSet.absolute(row + 1);
-            resultSet.updateDouble(MovieDB.MOVIE_DATE_COLUMN, newInt);
-            resultSet.updateRow();
-            fireTableDataChanged();
-        } catch (SQLException e) {
-            //System.out.println("error changing rating " + e);
+            if (View_Movies_GUI.test){
+                if (col == 1) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+                else if (col == 2) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.MOVIE_YEAR_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+
+                else if (col == 3) {
+                    double newDouble;
+                    newDouble = Double.parseDouble(newValue.toString());
+                    resultSet.absolute(row + 1);
+                    resultSet.updateDouble(MovieDB.MOVIE_PRICE_COLUMN, newDouble);
+                    resultSet.updateRow();
+                }
+
+                else if (col == 4) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+
+                else if (col == 5) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.MOVIE_FORMAT_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+                else if (col == 6) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.MOVIE_UPC_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+
+                fireTableCellUpdated(row, col);
+            }
+            if (View_Customers_GUI.customerEdit){
+
+                if (col == 0) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+                else if (col == 1) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.FIRST_NAME_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+                else if (col == 2) {
+                    String newString = newValue.toString();
+                    resultSet.absolute(row + 1);
+                    resultSet.updateString(MovieDB.LAST_NAME_COLUMN, newString);
+                    resultSet.updateRow();
+                }
+                fireTableCellUpdated(row, col);
+            }
+
+        }catch (SQLException e){
+
         }
 
     }
 
-    //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.
-    public boolean isCellEditable(int row, int col){
-        if (col == 1 | col == 2 | col == 3 | col == 5 | col == 6) {
+
+/*    @Override
+    //This method is called when user edits an editable cell
+    public void setValueAt(Object newValue, int row, int col) {
+
+        double newInt;
+
+        String newGus = (String) newValue.toString();
+
+        //newInt = Double.parseDouble(newValue.toString());
+
+        try {
+            resultSet.absolute(row + 1);
+            resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, newGus);
+            resultSet.updateRow();
+            fireTableDataChanged();
+        } catch (SQLException e) {
+            //System.out.println("error changing rating " + e);
+        }
+
+        try {
+            resultSet.absolute(row + 1);
+            resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, newGus);
+            resultSet.updateRow();
+            fireTableDataChanged();
+        } catch (SQLException e) {
+            //System.out.println("error changing rating " + e);
+        }
+
+    }*/
+
+ /*   //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.
+    public boolean isCellEditable(int row, int column) {
+        if (column == 1 | column == 2 | column == 3 |  column == 4 | column == 5 | column == 6) {
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
+    }*/
+    //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.
+    public boolean isCellEditable(int row, int column) {
+            return true;
     }
     @Override
     public String getColumnName(int col){

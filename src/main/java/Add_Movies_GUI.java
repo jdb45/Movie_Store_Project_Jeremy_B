@@ -62,26 +62,19 @@ public class Add_Movies_GUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 String movieTitle = addMovie.getText();
-                //String movieDate = String.parse(dateSpinner.getName());
                 Date currentValue = (Date) dateSpinner.getValue();
                 String movieFormatString = movieFormat.getSelectedItem().toString();
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 String movieDate = formatter.format(currentValue);
                 String phoneNumber = customerCode.getSelectedItem().toString();
-                //Integer phoneNumber = Integer.parseInt((holdPhone));
+                String movieYear = addMovieYear.getText();
                 String movieUPC = upcBarcode.getText();
                 //checking to make sure a name has been entered
                 if (movieTitle == null || movieTitle.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter a movie title");
                 }
-
-                Integer movieYear;
-                try {
-                    movieYear = Integer.parseInt(addMovieYear.getText());
-
-                } catch (NumberFormatException ne) {
-                    JOptionPane.showMessageDialog(rootPane, "Movie year needs to be a number, or can't be blank");
-                    return;
+                if (movieYear == null || movieTitle.trim().equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "Please enter a movie year");
                 }
 
                 Double moviePrice;

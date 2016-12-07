@@ -41,6 +41,7 @@ public class MovieDB {
 
     public static Movie_StoreDB_DataModel customerModel;
     public static Movie_StoreDB_DataModel movieModel;
+    //public static Movie_StoreDB_DataModel testModel;
 
     public static void main(String[] args) {
 
@@ -129,9 +130,10 @@ public class MovieDB {
 
                 System.out.println("Created Customers table");
             }
-            else if (!moviesTableExists()){
+
+            if (!moviesTableExists()){
                 //Create tables in the database
-                String createMovieTableSQL = "CREATE TABLE " + MOVIE_TABLE_NAME + " (" + MOVIE_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + MOVIE_YEAR_COLUMN + " INT(4), " +
+                String createMovieTableSQL = "CREATE TABLE " + MOVIE_TABLE_NAME + " (" + MOVIE_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + MOVIE_YEAR_COLUMN + " VARCHAR (4), " +
                         MOVIE_PRICE_COLUMN + " DOUBLE , "+  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
                 System.out.println(createMovieTableSQL);
                 statementMovie.executeUpdate(createMovieTableSQL);
@@ -151,19 +153,43 @@ public class MovieDB {
     private static boolean customersTableExists() throws SQLException {
 
         //showing the tables that exists
-        String checkCustomerTablePresenQuery = "SHOW TABLES LIKE '" + CUSTOMER_TABLE_NAME + "'";
-        ResultSet customerRS = statementCustomer.executeQuery(checkCustomerTablePresenQuery);
+        String checkCustomerTablePresentQuery = "SHOW TABLES LIKE '" + CUSTOMER_TABLE_NAME + "'";
+        ResultSet customerRS = statementCustomer.executeQuery(checkCustomerTablePresentQuery);
         if(customerRS.next()) {
             return true;
         }
         return false;
     }
 
+/*    public static boolean searchCustomers(String userSearch) throws SQLException{
+        String prepStatInsertSQL = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE (?) = " + FIRST_NAME_COLUMN;
+        PreparedStatement psInsert = conn.prepareStatement(prepStatInsertSQL);
+        psInsert.setString(1, userSearch);
+        psInsert.executeUpdate();
+        psInsert.close();
+        customerModel = new Movie_StoreDB_DataModel(rsCustomer);
+        return true;
+    }*/
+    /*public static boolean searchCustomers() {
+        try {
+            Statement st = conn.createStatement();
+            String query = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE " + FIRST_NAME_COLUMN +" LIKE (?)";
+            rs = st.executeQuery(query);
+            jTable2.setModel(DbUtils.resultSetToTableModel(rs));
+
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Got an exception!");
+            System.err.println(e.getMessage());
+        }
+    }*/
+
     private static boolean moviesTableExists() throws SQLException {
 
         //showing the tables that exists
-        String checkMovieTablePresenQuery = "SHOW TABLES LIKE '" + MOVIE_TABLE_NAME + "'";
-        ResultSet movieRS = statementMovie.executeQuery(checkMovieTablePresenQuery);
+        String checkMovieTablePresentQuery = "SHOW TABLES LIKE '" + MOVIE_TABLE_NAME + "'";
+        ResultSet movieRS = statementMovie.executeQuery(checkMovieTablePresentQuery);
         if(movieRS.next()) {
             return true;
         }

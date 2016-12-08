@@ -50,20 +50,21 @@ public class Add_Customers_GUI extends JFrame {
                         return;
                     }
 
-                JOptionPane.showMessageDialog(rootPane, "Successfully added " + firstName + " " + lastName + ", " + "Phone number " + phoneNumber
-                        + " to the customer database");
 
                 //setting the values back to empty after
                 enterFirstName.setText("");
                 enterLastName.setText("");
                 enterPhoneNumber.setText("");
 
-                System.out.println("Adding " + firstName + " " + lastName);
                 boolean insertedRow = MovieDB.customerModel.insertRowCustomers(firstName, lastName, phoneNumber);
 
                 //checking to make sure the data was entered in
                 if (!insertedRow) {
                     JOptionPane.showMessageDialog(rootPane, "Error adding new customer");
+                }
+                else if(insertedRow) {
+                    JOptionPane.showMessageDialog(rootPane, "Successfully added " + firstName + " " + lastName + ", " + "Phone number " + phoneNumber
+                            + " to the customer database");
                 }
 
             }

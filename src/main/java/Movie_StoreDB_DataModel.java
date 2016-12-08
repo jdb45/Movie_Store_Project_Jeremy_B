@@ -4,6 +4,7 @@ import javax.swing.table.AbstractTableModel;
 import java.security.acl.LastOwnerException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
@@ -259,6 +260,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
     public boolean isCellEditable(int row, int column) {
             return true;
     }
+
     @Override
     public String getColumnName(int col){
         //Getting from ResultSet metadata, which contains the database column names
@@ -270,5 +272,6 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             return "?";
         }
     }
+
 
 }

@@ -34,8 +34,10 @@ public class MovieDB {
     public final static String MOVIE_UPC_COLUMN = "upc_barcode";
 
     public final static String SALES_TABLE_NAME = "sales";
+    public final static String SALES_PK_COLUMN = "sale_id";
     public final static String SALES_DATE_COLUMN = "date_sold";
     public final static String SALES_TOTAL_COLUMN = "total_sales";
+    public final static String SALES_PRICE_COLUMN = "sales_price";
 
 
 

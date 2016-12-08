@@ -31,6 +31,7 @@ public class Add_Movies_GUI extends JFrame{
         movieFormat.addItem("DVD");
         movieFormat.addItem("Blu-Ray");
         movieFormat.addItem("VHS");
+        upcBarcode.setText("Null");
         while (true) {
             for(int i = 0 ; i < MovieDB.customerModel.getRowCount(); i++){
 

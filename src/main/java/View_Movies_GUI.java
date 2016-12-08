@@ -2,12 +2,16 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.EventListener;
+
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 
 /**
  * Created by Jeremy on 11/28/16.
@@ -20,6 +24,7 @@ public class View_Movies_GUI extends JFrame {
     private JButton sellMovieButton;
     private JButton deleteButton;
     public static boolean test;
+    public static ArrayList<Object> list = new ArrayList<>();
 
     public View_Movies_GUI(Home_GUI homeForm) {
 
@@ -113,20 +118,33 @@ public class View_Movies_GUI extends JFrame {
             }
         });
     }
-
+    //TODO get the selected movie to carry over to the selling form
     public void sellMovie(){
         sellMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 int currentRow = movieTable.getSelectedRow();
+
+                list = new ArrayList<Object>();
+
+                for(int row = 0; row < movieTable.getRowCount(); row++) {
+                    if(row == currentRow) {
+                        for (int column = 0; column < movieTable.getColumnCount(); column++) {
+                            list.add(movieTable.getValueAt(row, column));
+                        }
+                    }
+                }
+                for(int i = 0 ; i < list.size() ; i++){
+                    System.out.println(list.get(i));
+                }
+
+
                 //checking to see if a movie has been selected
                 if (currentRow == -1) {
                     JOptionPane.showMessageDialog(rootPane, "Please choose a movie to sell");
                 }
                 else {
-                    //TODO get the selected movie to carry over to the selling form
-                    //hold = movieTable.convertRowIndexToModel(currentRow);
                     Sell_Movie_GUI newRemove = new Sell_Movie_GUI(View_Movies_GUI.this);
                 }
             }

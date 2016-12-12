@@ -140,6 +140,23 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
     }
 
+    public boolean updateCustomerMoney(double currentMoney, double pickedUpMoney, double totalMoney) {
+
+        try {
+            //resultSet.updateDouble(MovieDB.CUSTOMER_MONEY_COLLECTED_COLUMN, pickedUpMoney);
+            resultSet.updateDouble(MovieDB.CUSTOMER_MONEY_HOLD_COLUMN, currentMoney);
+            resultSet.updateDouble(MovieDB.CUSTOMER_MONEY_TOTAL_COLUMN, totalMoney);
+            fireTableDataChanged();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error updating row");
+            System.out.println(e);
+            return false;
+
+        }
+    }
+
     public boolean insertRowSales(String date, String movieTitle, Double salePrice, Double saleTotal, Double customerPay,
                                   String customerPhoneNumber) {
 

@@ -3,6 +3,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Arc2D;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,6 +13,9 @@ public class Sell_Movie_GUI extends JFrame{
     private JButton exitButton;
     private JTextArea saleTextArea;
     public static String customerPhoneNumber;
+    public static double currentMoneyDouble;
+    public static double pickedUpMoneyDouble;
+    public static double totalMoneyDouble;
 
     DefaultListModel<Movie> movieListModel = new DefaultListModel<>();
     Movie newMovie = null;
@@ -38,6 +42,14 @@ public class Sell_Movie_GUI extends JFrame{
         String upcBarcode = (String) View_Movies_GUI.list.get(6);
         customerPhoneNumber = (String) View_Movies_GUI.list.get(7);
 
+        MovieDB.loadSelectedCustomer();
+        String currentMoneyString = (String) MovieDB.selectModel.getValueAt(0, 3).toString();
+        String pickedUpMoney = (String) MovieDB.selectModel.getValueAt(0, 4).toString();
+        String totalMoney = (String) MovieDB.selectModel.getValueAt(0, 5).toString();
+        currentMoneyDouble = Double.parseDouble(currentMoneyString);
+        pickedUpMoneyDouble = Double.parseDouble(pickedUpMoney);
+        totalMoneyDouble = Double.parseDouble(totalMoney);
+
         double moviePrice;
 
         moviePrice = Double.parseDouble(moviePriceHold);
@@ -50,6 +62,9 @@ public class Sell_Movie_GUI extends JFrame{
         total = Math.round(total * 100.0) / 100.0;
         double customerPay = moviePrice * 0.40;
         customerPay = Math.round(customerPay * 100.0) / 100.0;
+        currentMoneyDouble += customerPay;
+        totalMoneyDouble = currentMoneyDouble + pickedUpMoneyDouble;
+
 
         newMovie = new Movie(ID, movieTitle, movieYear, moviePrice, todayDate, movieFormat, upcBarcode, customerPhoneNumber, tax, total);
 
@@ -57,19 +72,29 @@ public class Sell_Movie_GUI extends JFrame{
 
         double finalTotal = total;
         double finalCustomerPay = customerPay;
+
         completeSaleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 boolean insertedRow = MovieDB.salesModel.insertRowSales(todayDate, movieTitle, moviePrice, finalTotal, finalCustomerPay,
                         customerPhoneNumber);
 
                 //checking to make sure the data was entered in
                 if (!insertedRow) {
-                    JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
+                    JOptionPane.showMessageDialog(rootPane, "Error selling movie");
                 }
 
                 else{
                     JOptionPane.showMessageDialog(rootPane, "Successfully sold: " + movieTitle + ", " + "Price: $" + finalTotal);
+                }
+
+                boolean insertMoney = MovieDB.insertCustomerMoney();
+
+                if (insertMoney) {
+                    MovieDB.loadAllTables();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Error updating customer money");
                 }
                     boolean deleteSold = MovieDB.movieModel.deleteRow(View_Movies_GUI.selectedRowDelete);
                     if (deleteSold) {
@@ -77,9 +102,6 @@ public class Sell_Movie_GUI extends JFrame{
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Error deleting movie");
                     }
-
-                    //MovieDB.loadSelectedCustomer();
-                MovieDB.loadAllTables();
 
                 Sell_Movie_GUI.this.dispose();
 

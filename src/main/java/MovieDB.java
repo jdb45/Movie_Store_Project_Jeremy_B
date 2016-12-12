@@ -133,13 +133,50 @@ public class MovieDB {
         }
     }
 
-    /*public static boolean loadSelectedCustomer(){
+    public static boolean insertCustomerMoney() {
         try {
-           *//* if (rsCustomer != null) {
-                rsCustomer.close();
-            }*//*
+            String insertSQL = "UPDATE customers SET money_not_collected = ?, total_sales = ? WHERE phone_number = ? ";
+            PreparedStatement psInsert = conn.prepareStatement(insertSQL);
+            psInsert.setDouble(1, Sell_Movie_GUI.currentMoneyDouble);
+            psInsert.setDouble(2, Sell_Movie_GUI.totalMoneyDouble);
+            psInsert.setString(3, Sell_Movie_GUI.customerPhoneNumber);
+            psInsert.executeUpdate();
+            return true;
 
-            String getSelectedCustomer = "SELECT * FROM customers WHERE phone_numbers = (?, ?)";
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading tables");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean updateCustomerMoney() {
+        try {
+
+            String insertSQL = "UPDATE customers SET money_not_collected = ?, money_collected = ?, total_sales = ? WHERE phone_number = ? ";
+            PreparedStatement psInsert = conn.prepareStatement(insertSQL);
+            psInsert.setDouble(1, 0.0);
+            psInsert.setDouble(2, Cash_Out_Customers_GUI.updatePickedUpMoneyDouble);
+            psInsert.setDouble(3, Cash_Out_Customers_GUI.updateTotalMoneyDouble);
+            psInsert.setString(4, Cash_Out_Customers_GUI.selectedCustomerPN);
+            psInsert.executeUpdate();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading tables");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean loadSelectedCustomer(){
+        try {
+            if (rsSelect != null) {
+                rsSelect.close();
+            }
+
+            String getSelectedCustomer = "SELECT * FROM customers WHERE phone_number = (?)";
             PreparedStatement findMoreRecords = conn.prepareStatement(getSelectedCustomer);
             findMoreRecords.setString(1, Sell_Movie_GUI.customerPhoneNumber);
             rsSelect = findMoreRecords.executeQuery();
@@ -159,7 +196,7 @@ public class MovieDB {
             e.printStackTrace();
             return false;
         }
-    }*/
+    }
 
     public static boolean setup() {
 

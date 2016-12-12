@@ -70,6 +70,7 @@ public class Add_Movies_GUI extends JFrame{
                 String phoneNumber = customerCode.getSelectedItem().toString();
                 String movieYear = addMovieYear.getText();
                 String movieUPC = upcBarcode.getText();
+
                 //checking to make sure a name has been entered
                 if (movieTitle == null || movieTitle.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter a movie title");
@@ -102,7 +103,7 @@ public class Add_Movies_GUI extends JFrame{
                 addMoviePrice.setText("");
                 addMovie.setText("");
                 addMovieYear.setText("");
-                upcBarcode.setText("");
+                upcBarcode.setText("Null");
             }
         });
 

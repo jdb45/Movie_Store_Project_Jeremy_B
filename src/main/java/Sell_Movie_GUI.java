@@ -63,7 +63,7 @@ public class Sell_Movie_GUI extends JFrame{
         double customerPay = moviePrice * 0.40;
         customerPay = Math.round(customerPay * 100.0) / 100.0;
         currentMoneyDouble += customerPay;
-        totalMoneyDouble = currentMoneyDouble + pickedUpMoneyDouble;
+        totalMoneyDouble += customerPay;
 
 
         newMovie = new Movie(ID, movieTitle, movieYear, moviePrice, todayDate, movieFormat, upcBarcode, customerPhoneNumber, tax, total);

@@ -22,7 +22,6 @@ public class Cash_Out_Customers_GUI extends JFrame{
 
 
     //TODO add metadata
-    //TODO Cash out button working!
     public Cash_Out_Customers_GUI(Home_GUI home_gui) {
 
         setContentPane(rootPanel);
@@ -91,32 +90,34 @@ public class Cash_Out_Customers_GUI extends JFrame{
 
                 int currentRow = cashOutCustomersTable.getSelectedRow();
                 //checking to see if a customer has been selected
+                try {
 
-                selectedCustomerPN = (String) MovieDB.customerModel.getValueAt(currentRow, 0).toString();
-                String pickedUpMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 3).toString();
-                String checkForMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 4).toString();
-                String totalMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 5).toString();
-
-
-                if (currentRow == -1) {
-                    JOptionPane.showMessageDialog(rootPane, "Please choose a customer to cash out");
-                }
-
-                else if (checkForMoney.equals("0.0")){
-                    JOptionPane.showMessageDialog(rootPane, "You can't Cash-Out a customer that does not have money owed to them");
-                }
-
-                else if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(Cash_Out_Customers_GUI.this, "Are you sure you want to cash out this customer? This means they are picking up their money", "Cash-Up", JOptionPane.OK_CANCEL_OPTION)) {
+                    selectedCustomerPN = (String) MovieDB.customerModel.getValueAt(currentRow, 0).toString();
+                    String currentMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 3).toString();
+                    String pickedUpMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 4).toString();
+                    String totalMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 5).toString();
+                    double updateCurrentMoney = Double.parseDouble(currentMoney);
                     updatePickedUpMoneyDouble = Double.parseDouble(pickedUpMoney);
+                    updatePickedUpMoneyDouble += updateCurrentMoney;
                     updateTotalMoneyDouble = Double.parseDouble(totalMoney);
-                    boolean updateMoney = MovieDB.updateCustomerMoney();
 
-                    if (updateMoney) {
-                        JOptionPane.showMessageDialog(rootPane, "Cash-Out customer successful");
-                        MovieDB.loadAllTables();
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "Error updating customer money");
+
+                     if (currentMoney.equals("0.0")) {
+                        JOptionPane.showMessageDialog(rootPane, "You can't Cash-Out a customer that does not have money owed to them");
                     }
+
+                    else if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(Cash_Out_Customers_GUI.this, "Are you sure you want to cash out this customer? This means they are picking up their money", "Cash-Up", JOptionPane.OK_CANCEL_OPTION)) {
+                        boolean updateMoney = MovieDB.updateCustomerMoney();
+
+                        if (updateMoney) {
+                            JOptionPane.showMessageDialog(rootPane, "Cash-Out customer successful");
+                            MovieDB.loadAllTables();
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Error updating customer money");
+                        }
+                    }
+                }catch (NumberFormatException nfe){
+                    JOptionPane.showMessageDialog(rootPane, "Please choose a customer to cash out");
                 }
             }
         });

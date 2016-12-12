@@ -39,7 +39,6 @@ public class Movie {
         this.tax = tax;
         this.total = total;
     }
-    //TODO finish formatting
     @Override
     public String toString(){
 

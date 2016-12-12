@@ -155,7 +155,7 @@ public class MovieDB {
 
             String insertSQL = "UPDATE customers SET money_not_collected = ?, money_collected = ?, total_sales = ? WHERE phone_number = ? ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
-            psInsert.setDouble(1, 0.0);
+            psInsert.setDouble(1, 0);
             psInsert.setDouble(2, Cash_Out_Customers_GUI.updatePickedUpMoneyDouble);
             psInsert.setDouble(3, Cash_Out_Customers_GUI.updateTotalMoneyDouble);
             psInsert.setString(4, Cash_Out_Customers_GUI.selectedCustomerPN);

@@ -4,8 +4,8 @@ import javax.swing.table.AbstractTableModel;
 import java.security.acl.LastOwnerException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
 
+//TODO create a method to update just the customer sales can be done by making a method with just the sales! dont forget!
 public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
 
@@ -27,7 +27,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             colCount = resultSet.getMetaData().getColumnCount();
 
         } catch (SQLException se) {
-            System.out.println("Error counting coulmns" + se);
+            System.out.println("Error counting columns" + se);
         }
     }
 
@@ -98,6 +98,9 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
             resultSet.updateString(MovieDB.FIRST_NAME_COLUMN, firstName);
             resultSet.updateString(MovieDB.LAST_NAME_COLUMN, lastName);
+            resultSet.updateDouble(MovieDB.CUSTOMER_MONEY_COLLECTED_COLUMN, 0);
+            resultSet.updateDouble(MovieDB.CUSTOMER_MONEY_HOLD_COLUMN, 0);
+            resultSet.updateDouble(MovieDB.CUSTOMER_MONEY_TOTAL_COLUMN, 0);
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();
@@ -124,6 +127,31 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, movieDate);
             resultSet.updateString(MovieDB.MOVIE_FORMAT_COLUMN, movieFormat);
             resultSet.updateString(MovieDB.MOVIE_UPC_COLUMN, movieUPC);
+            resultSet.insertRow();
+            resultSet.moveToCurrentRow();
+            fireTableDataChanged();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error adding row");
+            System.out.println(e);
+            return false;
+        }
+
+    }
+
+    public boolean insertRowSales(String date, String movieTitle, Double salePrice, Double saleTotal, Double customerPay,
+                                  String customerPhoneNumber) {
+
+        try {
+            //inserting a new row with the information
+            resultSet.moveToInsertRow();
+            resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, customerPhoneNumber);
+            resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, movieTitle);
+            resultSet.updateString(MovieDB.SALES_DATE_COLUMN, date);
+            resultSet.updateDouble(MovieDB.SALES_PRICE_COLUMN, salePrice);
+            resultSet.updateDouble(MovieDB.SALES_TOTAL_COLUMN, saleTotal);
+            resultSet.updateDouble(MovieDB.SALES_CUSTOMER_PAY_COLUMN, customerPay);
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();

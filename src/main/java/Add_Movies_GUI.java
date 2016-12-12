@@ -87,14 +87,15 @@ public class Add_Movies_GUI extends JFrame{
                     return;
                 }
 
-                JOptionPane.showMessageDialog(rootPane, "Successfully added Title: " + movieTitle + ", " + "Year: " + movieYear + ", "
-                      + "Format: " + movieFormat.getSelectedItem() + ", " + "Price: $" + moviePrice + " to the movie database");
-
                 boolean insertedRow = MovieDB.movieModel.insertRowMovies(movieTitle, movieYear, moviePrice, movieDate, movieFormatString, phoneNumber, movieUPC );
 
                 //checking to make sure the data was entered in
                 if (!insertedRow) {
                     JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
+                }
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "Successfully added Title: " + movieTitle + ", " + "Year: " + movieYear + ", "
+                            + "Format: " + movieFormat.getSelectedItem() + ", " + "Price: $" + moviePrice + " to the movie database");
                 }
 
                 //setting the values back to empty after

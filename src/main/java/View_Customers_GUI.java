@@ -20,7 +20,7 @@ public class View_Customers_GUI extends JFrame {
     public View_Customers_GUI(Home_GUI homeForm) {
 
         setContentPane(rootPanel);
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(1000, 500));
         pack();
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

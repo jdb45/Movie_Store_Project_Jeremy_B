@@ -1,4 +1,7 @@
+import javax.swing.*;
+import javax.swing.text.View;
 import java.sql.*;
+//TODO get bargin bin working!
 
 public class MovieDB {
 
@@ -12,9 +15,13 @@ public class MovieDB {
 
     static Statement statementCustomer = null;
     static Statement statementMovie = null;
+    static Statement statementSales = null;
+    static Statement statementSelect = null;
 
     static ResultSet rsCustomer = null;
     static ResultSet rsMovie = null;
+    static ResultSet rsSales = null;
+    static ResultSet rsSelect = null;
 
 
     //setting columns for the customer table
@@ -22,6 +29,9 @@ public class MovieDB {
     public final static String CUSTOMER_CODE_COLUMN = "phone_number";
     public final static String FIRST_NAME_COLUMN = "first_name";
     public final static String LAST_NAME_COLUMN = "last_name";
+    public final static String CUSTOMER_MONEY_HOLD_COLUMN = "money_not_collected";
+    public final static String CUSTOMER_MONEY_COLLECTED_COLUMN = "money_collected";
+    public final static String CUSTOMER_MONEY_TOTAL_COLUMN = "total_sales";
 
     //setting columns for the movie table
     public final static String MOVIE_TABLE_NAME = "movies";
@@ -33,17 +43,19 @@ public class MovieDB {
     public final static String MOVIE_FORMAT_COLUMN = "movie_format";
     public final static String MOVIE_UPC_COLUMN = "upc_barcode";
 
+    //setting the columns for the sales table
     public final static String SALES_TABLE_NAME = "sales";
     public final static String SALES_PK_COLUMN = "sale_id";
     public final static String SALES_DATE_COLUMN = "date_sold";
-    public final static String SALES_TOTAL_COLUMN = "total_sales";
     public final static String SALES_PRICE_COLUMN = "sales_price";
-
+    public final static String SALES_TOTAL_COLUMN = "total_sales";
+    public final static String SALES_CUSTOMER_PAY_COLUMN = "customer_pay";
 
 
     public static Movie_StoreDB_DataModel customerModel;
     public static Movie_StoreDB_DataModel movieModel;
-    //public static Movie_StoreDB_DataModel testModel;
+    public static Movie_StoreDB_DataModel salesModel;
+    public static Movie_StoreDB_DataModel selectModel;
 
     public static void main(String[] args) {
 
@@ -72,6 +84,10 @@ public class MovieDB {
                 rsMovie.close();
             }
 
+            if (rsSales != null) {
+                rsSales.close();
+            }
+
             String getAllCustomers = "SELECT * FROM " + CUSTOMER_TABLE_NAME;
             rsCustomer = statementCustomer.executeQuery(getAllCustomers);
 
@@ -86,6 +102,7 @@ public class MovieDB {
             String getAllMovies = "SELECT * FROM " + MOVIE_TABLE_NAME;
             rsMovie = statementMovie.executeQuery(getAllMovies);
 
+
             if (movieModel == null) {
                 //setting the model if there isn't one
                 movieModel = new Movie_StoreDB_DataModel(rsMovie);
@@ -93,6 +110,19 @@ public class MovieDB {
                 //if there is one, it will update the result set
                 movieModel.updateResultSet(rsMovie);
             }
+
+
+            String getAllSales = "SELECT * FROM " + SALES_TABLE_NAME;
+            rsSales = statementSales.executeQuery(getAllSales);
+
+            if (salesModel == null) {
+                //setting the model if there isn't one
+                salesModel = new Movie_StoreDB_DataModel(rsSales);
+            } else {
+                //if there is one, it will update the result set
+                salesModel.updateResultSet(rsSales);
+            }
+
             return true;
 
         } catch (Exception e) {
@@ -102,6 +132,34 @@ public class MovieDB {
             return false;
         }
     }
+
+    /*public static boolean loadSelectedCustomer(){
+        try {
+           *//* if (rsCustomer != null) {
+                rsCustomer.close();
+            }*//*
+
+            String getSelectedCustomer = "SELECT * FROM customers WHERE phone_numbers = (?, ?)";
+            PreparedStatement findMoreRecords = conn.prepareStatement(getSelectedCustomer);
+            findMoreRecords.setString(1, Sell_Movie_GUI.customerPhoneNumber);
+            rsSelect = findMoreRecords.executeQuery();
+            //rsSelect = statementSelect.executeQuery(getSelectedCustomer);
+
+            if (selectModel == null) {
+                //setting the model if there isn't one
+                selectModel = new Movie_StoreDB_DataModel(rsSelect);
+            } else {
+                //if there is one, it will update the result set
+                selectModel.updateResultSet(rsSelect);
+            }
+            return true;
+        }catch (Exception e) {
+            System.out.println("Error loading or reloading tables");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }*/
 
     public static boolean setup() {
 
@@ -123,10 +181,13 @@ public class MovieDB {
 
             statementMovie = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
+            statementSales = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
             if (!customersTableExists()) {
 
                 //Create tables in the database
-                String createCustomerTableSQL = "CREATE TABLE " + CUSTOMER_TABLE_NAME + " (" + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + FIRST_NAME_COLUMN + " VARCHAR(75), " + LAST_NAME_COLUMN + " VARCHAR(75) , PRIMARY KEY(" + CUSTOMER_CODE_COLUMN + "))";
+                String createCustomerTableSQL = "CREATE TABLE " + CUSTOMER_TABLE_NAME + " (" + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + FIRST_NAME_COLUMN + " VARCHAR(75), " + LAST_NAME_COLUMN + " VARCHAR(75) , "
+                        + CUSTOMER_MONEY_HOLD_COLUMN + " DOUBLE , " + CUSTOMER_MONEY_COLLECTED_COLUMN + " DOUBLE , " + CUSTOMER_MONEY_TOTAL_COLUMN + " DOUBLE , " + " PRIMARY KEY(" + CUSTOMER_CODE_COLUMN + "))";
                 System.out.println(createCustomerTableSQL);
                 statementCustomer.executeUpdate(createCustomerTableSQL);
 
@@ -136,13 +197,25 @@ public class MovieDB {
             if (!moviesTableExists()){
                 //Create tables in the database
                 String createMovieTableSQL = "CREATE TABLE " + MOVIE_TABLE_NAME + " (" + MOVIE_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + MOVIE_YEAR_COLUMN + " VARCHAR (4), " +
-                        MOVIE_PRICE_COLUMN + " DOUBLE , "+  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
+                        MOVIE_PRICE_COLUMN + " DOUBLE , " +  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
                 System.out.println(createMovieTableSQL);
                 statementMovie.executeUpdate(createMovieTableSQL);
 
                 System.out.println("Created Movies Table");
 
             }
+
+            if (!salesTableExists()){
+                //Create tables in the database
+                String createSalesTableSQL = "CREATE TABLE " + SALES_TABLE_NAME + " (" + SALES_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + SALES_DATE_COLUMN + " VARCHAR(11), "  + MOVIE_TITLE_COLUMN + " VARCHAR(75)," + SALES_PRICE_COLUMN + " DOUBLE , " +
+                        SALES_TOTAL_COLUMN + " DOUBLE , "+  SALES_CUSTOMER_PAY_COLUMN + " DOUBLE , " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + SALES_PK_COLUMN + "))";
+                System.out.println(createSalesTableSQL);
+                statementMovie.executeUpdate(createSalesTableSQL);
+
+                System.out.println("Created Sales Table");
+
+            }
+
             return true;
 
         } catch (SQLException se) {
@@ -163,36 +236,23 @@ public class MovieDB {
         return false;
     }
 
-/*    public static boolean searchCustomers(String userSearch) throws SQLException{
-        String prepStatInsertSQL = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE (?) = " + FIRST_NAME_COLUMN;
-        PreparedStatement psInsert = conn.prepareStatement(prepStatInsertSQL);
-        psInsert.setString(1, userSearch);
-        psInsert.executeUpdate();
-        psInsert.close();
-        customerModel = new Movie_StoreDB_DataModel(rsCustomer);
-        return true;
-    }*/
-    /*public static boolean searchCustomers() {
-        try {
-            Statement st = conn.createStatement();
-            String query = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE " + FIRST_NAME_COLUMN +" LIKE (?)";
-            rs = st.executeQuery(query);
-            jTable2.setModel(DbUtils.resultSetToTableModel(rs));
-
-            conn.close();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Got an exception!");
-            System.err.println(e.getMessage());
-        }
-    }*/
-
     private static boolean moviesTableExists() throws SQLException {
 
         //showing the tables that exists
         String checkMovieTablePresentQuery = "SHOW TABLES LIKE '" + MOVIE_TABLE_NAME + "'";
         ResultSet movieRS = statementMovie.executeQuery(checkMovieTablePresentQuery);
         if(movieRS.next()) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean salesTableExists() throws SQLException {
+
+        //showing the tables that exists
+        String checkSalesTablePresentQuery = "SHOW TABLES LIKE '" + SALES_TABLE_NAME + "'";
+        ResultSet salesRS = statementSales.executeQuery(checkSalesTablePresentQuery);
+        if(salesRS.next()) {
             return true;
         }
         return false;

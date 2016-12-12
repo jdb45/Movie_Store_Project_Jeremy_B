@@ -3,15 +3,15 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-/**
- * Created by Jeremy on 11/28/16.
- */
 public class Sell_Movie_GUI extends JFrame{
     private JPanel rootPanel;
     private JButton completeSaleButton;
     private JButton exitButton;
-    private JList<Movie> saleList;
+    private JTextArea saleTextArea;
+    public static String customerPhoneNumber;
 
     DefaultListModel<Movie> movieListModel = new DefaultListModel<>();
     Movie newMovie = null;
@@ -24,23 +24,67 @@ public class Sell_Movie_GUI extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
-        
-        saleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        saleList.setModel(movieListModel);
+
+        Date dateNow = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String todayDate = formatter.format(dateNow);
 
         String ID = (String) View_Movies_GUI.list.get(0);
         String movieTitle = (String) View_Movies_GUI.list.get(1);
         String movieYear = (String) View_Movies_GUI.list.get(2);
-        //double moviePrice = (double) View_Movies_GUI.list.get(3);
-        String moviePrice = (String) View_Movies_GUI.list.get(3);
+        String moviePriceHold = (String) View_Movies_GUI.list.get(3);
         String movieDate = (String) View_Movies_GUI.list.get(4);
         String movieFormat = (String) View_Movies_GUI.list.get(5);
         String upcBarcode = (String) View_Movies_GUI.list.get(6);
-        String customerPhoneNumber = (String) View_Movies_GUI.list.get(7);
+        customerPhoneNumber = (String) View_Movies_GUI.list.get(7);
 
-        newMovie = new Movie(ID, movieTitle, movieYear, moviePrice, movieDate, movieFormat, upcBarcode, customerPhoneNumber);
-        movieListModel.addElement(newMovie);
+        double moviePrice;
 
+        moviePrice = Double.parseDouble(moviePriceHold);
+
+        double tax = 0.0688;
+        double total = moviePrice;
+        total += moviePrice * tax;
+        tax = tax * moviePrice;
+        tax = Math.round(tax * 100.0) / 100.0;
+        total = Math.round(total * 100.0) / 100.0;
+        double customerPay = moviePrice * 0.40;
+        customerPay = Math.round(customerPay * 100.0) / 100.0;
+
+        newMovie = new Movie(ID, movieTitle, movieYear, moviePrice, todayDate, movieFormat, upcBarcode, customerPhoneNumber, tax, total);
+
+        saleTextArea.append(newMovie.toString());
+
+        double finalTotal = total;
+        double finalCustomerPay = customerPay;
+        completeSaleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean insertedRow = MovieDB.salesModel.insertRowSales(todayDate, movieTitle, moviePrice, finalTotal, finalCustomerPay,
+                        customerPhoneNumber);
+
+                //checking to make sure the data was entered in
+                if (!insertedRow) {
+                    JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
+                }
+
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "Successfully sold: " + movieTitle + ", " + "Price: $" + finalTotal);
+                }
+                    boolean deleteSold = MovieDB.movieModel.deleteRow(View_Movies_GUI.selectedRowDelete);
+                    if (deleteSold) {
+                        MovieDB.loadAllTables();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Error deleting movie");
+                    }
+
+                    //MovieDB.loadSelectedCustomer();
+                MovieDB.loadAllTables();
+
+                Sell_Movie_GUI.this.dispose();
+
+            }
+        });
 
     }
 
@@ -57,4 +101,5 @@ public class Sell_Movie_GUI extends JFrame{
             }
         });
     }
+
 }

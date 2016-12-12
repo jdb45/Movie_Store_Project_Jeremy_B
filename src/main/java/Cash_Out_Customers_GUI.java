@@ -7,35 +7,40 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Sales_GUI extends JFrame {
-
+public class Cash_Out_Customers_GUI extends JFrame{
     private JPanel rootPanel;
-    private JTable viewSalesTable;
-    private JTextField searchTextField;
-    private JButton cashOutSaleButton;
+    private JTable cashOutCustomersTable;
+    private JTextField searchField;
+    private JButton searchButton;
+    private JButton cashOutButton;
     private JButton exitButton;
 
-    public Sales_GUI(Home_GUI home_gui) {
+
+    //TODO add metadata
+    //TODO Cash out button working!
+    public Cash_Out_Customers_GUI(Home_GUI home_gui) {
 
         setContentPane(rootPanel);
-        setPreferredSize(new Dimension(1000, 500));
+        setPreferredSize(new Dimension(500, 500));
         pack();
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
+        cashOut();
 
-        viewSalesTable.setGridColor(Color.BLACK);
-        viewSalesTable.setModel(MovieDB.salesModel);
+        cashOutCustomersTable.setGridColor(Color.BLACK);
+        //cashOutCustomersTable.setModel(MovieDB.customerModel);
+        cashOutCustomersTable.setModel(MovieDB.selectModel);
 
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(viewSalesTable.getModel());
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(cashOutCustomersTable.getModel());
 
-        viewSalesTable.setRowSorter(rowSorter);
+        cashOutCustomersTable.setRowSorter(rowSorter);
 
-        searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                String text = searchTextField.getText();
+                String text = searchField.getText();
 
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
@@ -46,7 +51,7 @@ public class Sales_GUI extends JFrame {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                String text = searchTextField.getText();
+                String text = searchField.getText();
 
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
@@ -61,15 +66,28 @@ public class Sales_GUI extends JFrame {
             }
 
         });
+
     }
+
 
     public void exit() {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Sales_GUI.this.dispose();
+
+                Cash_Out_Customers_GUI.this.dispose();
+            }
+        });
+    }
+
+    public void cashOut(){
+        cashOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
 
             }
         });
     }
+
 }

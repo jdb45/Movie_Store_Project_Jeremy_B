@@ -25,6 +25,7 @@ public class View_Movies_GUI extends JFrame {
     private JButton deleteButton;
     public static boolean test;
     public static ArrayList<Object> list = new ArrayList<>();
+    public static int selectedRowDelete;
 
     public View_Movies_GUI(Home_GUI homeForm) {
 
@@ -77,14 +78,6 @@ public class View_Movies_GUI extends JFrame {
         });
     }
 
-    public void tableChanged(TableModelEvent e) {
-        int row = e.getFirstRow();
-        int column = e.getColumn();
-        TableModel model = (TableModel)e.getSource();
-        Object data = model.getValueAt(row, column);
-
-    }
-
     public void exit() {
         exitButton.addActionListener(new ActionListener() {
             @Override
@@ -94,7 +87,6 @@ public class View_Movies_GUI extends JFrame {
             }
         });
     }
-
 
     public void deleteMovie() {
         deleteButton.addActionListener(new ActionListener() {
@@ -118,13 +110,15 @@ public class View_Movies_GUI extends JFrame {
             }
         });
     }
-    //TODO get the selected movie to carry over to the selling form
+
+    //TODO save the current row to be able to be deleted after the movie is sold
     public void sellMovie(){
         sellMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 int currentRow = movieTable.getSelectedRow();
+                selectedRowDelete = currentRow;
 
                 list = new ArrayList<Object>();
 

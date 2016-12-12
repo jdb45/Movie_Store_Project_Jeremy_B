@@ -32,19 +32,6 @@
           <text value="Finalize Sale"/>
         </properties>
       </component>
-      <scrollpane id="35a7e">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="e2e04" class="javax.swing.JList" binding="saleList">
-            <constraints/>
-            <properties/>
-          </component>
-        </children>
-      </scrollpane>
       <hspacer id="6900e">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -55,6 +42,16 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
+      <component id="c1f74" class="javax.swing.JTextArea" binding="saleTextArea">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+        </constraints>
+        <properties>
+          <editable value="false"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

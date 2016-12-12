@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Jeremy on 11/28/16.
@@ -30,6 +34,7 @@ public class Home_GUI extends JFrame {
         viewCustomers();
         removeCustomers();
         sales();
+
     }
 
 

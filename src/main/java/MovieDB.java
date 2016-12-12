@@ -1,7 +1,14 @@
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 import javax.swing.*;
 import javax.swing.text.View;
 import java.sql.*;
-//TODO get bargin bin working!
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+//TODO set bargain bin prices!
 
 public class MovieDB {
 
@@ -16,7 +23,6 @@ public class MovieDB {
     static Statement statementCustomer = null;
     static Statement statementMovie = null;
     static Statement statementSales = null;
-    static Statement statementSelect = null;
 
     static ResultSet rsCustomer = null;
     static ResultSet rsMovie = null;
@@ -42,6 +48,7 @@ public class MovieDB {
     public final static String MOVIE_DATE_COLUMN = "date_received";
     public final static String MOVIE_FORMAT_COLUMN = "movie_format";
     public final static String MOVIE_UPC_COLUMN = "upc_barcode";
+    public final static String MOVIE_BARGAIN_BIN_COLUMN = "bargain_bin";
 
     //setting the columns for the sales table
     public final static String SALES_TABLE_NAME = "sales";
@@ -57,6 +64,9 @@ public class MovieDB {
     public static Movie_StoreDB_DataModel salesModel;
     public static Movie_StoreDB_DataModel selectModel;
 
+    public static int getID;
+
+
     public static void main(String[] args) {
 
     //checking for errors on setup
@@ -67,10 +77,46 @@ public class MovieDB {
         if (!loadAllTables()) {
         System.exit(-1);
     }
+    checkBargain();
+
+
+
 
     //starting the GUI if there are no errors
         Home_GUI home_gui = new Home_GUI();
 }
+
+    public static void checkBargain() {
+        
+        for (int i = 0; i < movieModel.getRowCount(); i++) {
+            String hold = movieModel.getValueAt(i, 4).toString();
+            String IDString = movieModel.getValueAt(i, 0).toString();
+            getID = Integer.parseInt(IDString);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            java.util.Date movieDate;
+            java.util.Date today = Calendar.getInstance().getTime();
+            Calendar calendarDate = Calendar.getInstance();
+
+
+            try {
+                calendarDate.setTime(formatter.parse(hold));
+                calendarDate.add(Calendar.DATE, 30);  // number of days to add
+                hold = formatter.format(calendarDate.getTime());
+                movieDate = formatter.parse(hold);
+
+
+                if (movieDate.after(today)) {
+                    System.out.println("FALSE");
+                } else {
+                    updateBargainBin();
+                    System.out.println("TRUE");
+                }
+            } catch (ParseException y) {
+
+            }
+            loadAllTables();
+        }
+    }
     //loading all the customers in the database
     public static boolean loadAllTables() {
 
@@ -107,6 +153,7 @@ public class MovieDB {
                 //setting the model if there isn't one
                 movieModel = new Movie_StoreDB_DataModel(rsMovie);
             } else {
+
                 //if there is one, it will update the result set
                 movieModel.updateResultSet(rsMovie);
             }
@@ -123,6 +170,22 @@ public class MovieDB {
                 salesModel.updateResultSet(rsSales);
             }
 
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading tables");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean updateBargainBin() {
+        try {
+            String insertSQL = "UPDATE movies SET bargain_bin = ? WHERE id = ? ";
+            PreparedStatement psInsert = conn.prepareStatement(insertSQL);
+            psInsert.setBoolean(1, true);
+            psInsert.setInt(2, getID);
+            psInsert.executeUpdate();
             return true;
 
         } catch (Exception e) {
@@ -180,7 +243,6 @@ public class MovieDB {
             PreparedStatement findMoreRecords = conn.prepareStatement(getSelectedCustomer);
             findMoreRecords.setString(1, Sell_Movie_GUI.customerPhoneNumber);
             rsSelect = findMoreRecords.executeQuery();
-            //rsSelect = statementSelect.executeQuery(getSelectedCustomer);
 
             if (selectModel == null) {
                 //setting the model if there isn't one
@@ -234,7 +296,7 @@ public class MovieDB {
             if (!moviesTableExists()){
                 //Create tables in the database
                 String createMovieTableSQL = "CREATE TABLE " + MOVIE_TABLE_NAME + " (" + MOVIE_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + MOVIE_YEAR_COLUMN + " VARCHAR (4), " +
-                        MOVIE_PRICE_COLUMN + " DOUBLE , " +  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
+                        MOVIE_PRICE_COLUMN + " DOUBLE , " +  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + MOVIE_BARGAIN_BIN_COLUMN + " BIT (1), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
                 System.out.println(createMovieTableSQL);
                 statementMovie.executeUpdate(createMovieTableSQL);
 

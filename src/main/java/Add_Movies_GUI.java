@@ -98,6 +98,7 @@ public class Add_Movies_GUI extends JFrame{
                     JOptionPane.showMessageDialog(rootPane, "Successfully added Title: " + movieTitle + ", " + "Year: " + movieYear + ", "
                             + "Format: " + movieFormat.getSelectedItem() + ", " + "Price: $" + moviePrice + " to the movie database");
                 }
+                MovieDB.checkBargain();
 
                 //setting the values back to empty after
                 addMoviePrice.setText("");

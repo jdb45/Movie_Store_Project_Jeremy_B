@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-/**
- * Created by Jeremy on 12/7/16.
- */
 public class Movie {
 
     private String ID;
@@ -19,7 +16,7 @@ public class Movie {
     private String customerPhoneNumber;
     private double tax;
     private double total;
-
+    //formatting the date
     Date dateNow = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
     String todayDate = formatter.format(dateNow);
@@ -45,7 +42,7 @@ public class Movie {
                "Movie price: $"  + moviePrice + "\n" +
                "Movie format: " + movieFormat + "\n" +
                 "Date sold: " + todayDate + "\n"+
-                "Customer code: " + customerPhoneNumber + "\n"+
+                "Customer code: " + customerPhoneNumber + "\n"+ "\n"+
                 "Tax: $" + tax + "\n"+
                 "Total: $"+ total;
     }

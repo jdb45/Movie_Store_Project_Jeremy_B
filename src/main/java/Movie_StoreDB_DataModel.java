@@ -1,7 +1,4 @@
-
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.security.acl.LastOwnerException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -35,7 +32,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
         resultSet = newRS;
         setup();
     }
-
+    //method to count the rows
     private void countRows() {
         rowCount = 0;
         try {
@@ -49,24 +46,24 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             System.out.println("Error counting rows " + se);
         }
     }
-
+    //getting the row count
     @Override
     public int getRowCount() {
         countRows();
         return rowCount;
     }
-
+    //getting the column count
     @Override
     public int getColumnCount(){
         return colCount;
     }
-
+    //getting the object values
     @Override
     public Object getValueAt(int row, int col) {
         try {
             resultSet.absolute(row + 1);
-            Object o = resultSet.getObject(col + 1);
-            return o.toString();
+            Object objectRS = resultSet.getObject(col + 1);
+            return objectRS.toString();
         } catch (SQLException se) {
             System.out.println(se);
             return se.toString();
@@ -79,7 +76,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
         try {
             resultSet.absolute(row + 1);
             resultSet.deleteRow();
-            //Tell table to redraw itself
+            //redraw table
             fireTableDataChanged();
             return true;
         }catch (SQLException se) {
@@ -88,11 +85,11 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
         }
     }
 
-    //returns true if successful, false if error occurs
+    //a method for inserting a new customers row
     public boolean insertRowCustomers(String firstName, String lastName, String phoneNumber) {
 
         try {
-            //inserting a new row with the information
+            //inserting a new customer row with information
             resultSet.moveToInsertRow();
             resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, phoneNumber);
             resultSet.updateString(MovieDB.FIRST_NAME_COLUMN, firstName);
@@ -113,7 +110,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
     }
 
-    //returns true if successful, false if error occurs
+    //a method for inserting a new movie row
     public boolean insertRowMovies(String movieTitle, String movieYear, double moviePrice, String movieDate, String movieFormat, String phoneNumber, String movieUPC) {
 
         try {
@@ -140,7 +137,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
     }
 
-
+    //a method for inserting a new sales row
     public boolean insertRowSales(String date, String movieTitle, Double salePrice, Double saleTotal, Double customerPay,
                                   String moviePK, String customerPhoneNumber) {
 
@@ -167,7 +164,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
         }
 
     }
-
+    //setting the edited values of the cells that are being edited
     //TODO make this not have to be hard coded and not look awful
     @Override
     public void setValueAt(Object newValue, int row, int col)
@@ -247,46 +244,6 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
     }
 
-
-/*    @Override
-    //This method is called when user edits an editable cell
-    public void setValueAt(Object newValue, int row, int col) {
-
-        double newInt;
-
-        String newGus = (String) newValue.toString();
-
-        //newInt = Double.parseDouble(newValue.toString());
-
-        try {
-            resultSet.absolute(row + 1);
-            resultSet.updateString(MovieDB.MOVIE_TITLE_COLUMN, newGus);
-            resultSet.updateRow();
-            fireTableDataChanged();
-        } catch (SQLException e) {
-            //System.out.println("error changing rating " + e);
-        }
-
-        try {
-            resultSet.absolute(row + 1);
-            resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, newGus);
-            resultSet.updateRow();
-            fireTableDataChanged();
-        } catch (SQLException e) {
-            //System.out.println("error changing rating " + e);
-        }
-
-    }*/
-
- /*   //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.
-    public boolean isCellEditable(int row, int column) {
-        if (column == 1 | column == 2 | column == 3 |  column == 4 | column == 5 | column == 6) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }*/
     //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.
     public boolean isCellEditable(int row, int column) {
             return true;

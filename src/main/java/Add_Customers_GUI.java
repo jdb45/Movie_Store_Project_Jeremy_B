@@ -22,16 +22,17 @@ public class Add_Customers_GUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
 
-   // public void addCustomers() {
+        //a button to add customers
         addCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                //getting the text from the text fields
                 String firstName = enterFirstName.getText();
                 String lastName = enterLastName.getText();
                 String phoneNumber = enterPhoneNumber.getText();
 
-                //checking to make sure a name has been entered
+                //checking to make sure a first name, last name and phone have been entered
                 if (firstName == null || firstName.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter a first name");
                 }

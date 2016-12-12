@@ -22,10 +22,12 @@ public class Sales_GUI extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         exit();
-
+        //setting the table models
         viewSalesTable.setGridColor(Color.BLACK);
         viewSalesTable.setModel(MovieDB.salesModel);
 
+
+        // I got some ideas about this search method from this website - http://stackoverflow.com/questions/22066387/how-to-search-an-element-in-a-jtable-java
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(viewSalesTable.getModel());
 
         viewSalesTable.setRowSorter(rowSorter);

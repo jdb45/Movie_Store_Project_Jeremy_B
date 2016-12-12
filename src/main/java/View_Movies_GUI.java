@@ -1,21 +1,13 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.EventListener;
 
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
-
-/**
- * Created by Jeremy on 11/28/16.
- */
 public class View_Movies_GUI extends JFrame {
     private JPanel rootPanel;
     private JTable movieTable;
@@ -23,6 +15,7 @@ public class View_Movies_GUI extends JFrame {
     private JButton exitButton;
     private JButton sellMovieButton;
     private JButton deleteButton;
+    //setting some static variables
     public static boolean test;
     public static ArrayList<Object> list = new ArrayList<>();
     public static int selectedRowDelete;
@@ -38,10 +31,11 @@ public class View_Movies_GUI extends JFrame {
         sellMovie();
         deleteMovie();
         test = true;
-
+        //setting the table models
         movieTable.setGridColor(Color.BLACK);
         movieTable.setModel(MovieDB.movieModel);
 
+        // I got some ideas about this search method from this website - http://stackoverflow.com/questions/22066387/how-to-search-an-element-in-a-jtable-java
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(movieTable.getModel());
 
         movieTable.setRowSorter(rowSorter);
@@ -92,6 +86,7 @@ public class View_Movies_GUI extends JFrame {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //getting the current row
                 int currentRow = movieTable.getSelectedRow();
 
                 //checking to see if a movie has been selected
@@ -99,6 +94,7 @@ public class View_Movies_GUI extends JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Please choose a movie to delete");
 
                 }
+                //removing a movie if one ahs been selected
                 else if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(View_Movies_GUI.this, "Are you sure you want to delete the Movie?", "Delete", JOptionPane.OK_CANCEL_OPTION)) {
                     boolean deleted = MovieDB.movieModel.deleteRow(currentRow);
                     if (deleted) {
@@ -111,17 +107,17 @@ public class View_Movies_GUI extends JFrame {
         });
     }
 
-    //TODO save the current row to be able to be deleted after the movie is sold
     public void sellMovie(){
         sellMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //getting the selected row
                 int currentRow = movieTable.getSelectedRow();
                 selectedRowDelete = currentRow;
-
+                //initializing the list
                 list = new ArrayList<Object>();
 
+                //going through each value assing each value to the list to be moved to the next form
                 for(int row = 0; row < movieTable.getRowCount(); row++) {
                     if(row == currentRow) {
                         for (int column = 0; column < movieTable.getColumnCount(); column++) {
@@ -129,10 +125,6 @@ public class View_Movies_GUI extends JFrame {
                         }
                     }
                 }
-                for(int i = 0 ; i < list.size() ; i++){
-                    System.out.println(list.get(i));
-                }
-
 
                 //checking to see if a movie has been selected
                 if (currentRow == -1) {

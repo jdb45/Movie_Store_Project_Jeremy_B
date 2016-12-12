@@ -28,10 +28,13 @@ public class Add_Movies_GUI extends JFrame{
         pack();
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //assigning the values of the combo box
         movieFormat.addItem("DVD");
         movieFormat.addItem("Blu-Ray");
         movieFormat.addItem("VHS");
+        //setting the barcode to null
         upcBarcode.setText("Null");
+        //a while loop to add all the customer codes to the customer combo box
         while (true) {
             for(int i = 0 ; i < MovieDB.customerModel.getRowCount(); i++){
 
@@ -40,6 +43,7 @@ public class Add_Movies_GUI extends JFrame{
             break;
 
         }
+        //setting the model for the date spinner
         dateSpinner.setModel(new SpinnerDateModel());
 
         exit();
@@ -62,9 +66,11 @@ public class Add_Movies_GUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                //getting all the values from the text and combo fields
                 String movieTitle = addMovie.getText();
                 Date currentValue = (Date) dateSpinner.getValue();
                 String movieFormatString = movieFormat.getSelectedItem().toString();
+                //creating a date formatter
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 String movieDate = formatter.format(currentValue);
                 String phoneNumber = customerCode.getSelectedItem().toString();
@@ -75,11 +81,13 @@ public class Add_Movies_GUI extends JFrame{
                 if (movieTitle == null || movieTitle.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter a movie title");
                 }
+                //checking to make sure a year has been entered
                 if (movieYear == null || movieTitle.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter a movie year");
                 }
 
                 Double moviePrice;
+                //parsing the movie price and making sure its a double
                 try {
                     moviePrice = Double.parseDouble(addMoviePrice.getText());
 

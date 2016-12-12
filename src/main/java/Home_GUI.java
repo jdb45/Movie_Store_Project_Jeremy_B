@@ -7,9 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-/**
- * Created by Jeremy on 11/28/16.
- */
+//TODO make method with donation code
 public class Home_GUI extends JFrame {
     private JPanel rootPanel;
     private JButton addMovieButton;
@@ -76,6 +74,7 @@ public class Home_GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(Home_GUI.this, "Are you sure you want to quit?", "Quit", JOptionPane.OK_CANCEL_OPTION)) {
+                    MovieDB.shutdown();
                     System.exit(0);
                 }
             }

@@ -30,6 +30,8 @@ public class View_Customers_GUI extends JFrame {
 
         viewCustomerTable.setGridColor(Color.BLACK);
         viewCustomerTable.setModel(MovieDB.customerModel);
+
+        // I got some ideas about this search method from this website - http://stackoverflow.com/questions/22066387/how-to-search-an-element-in-a-jtable-java
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(viewCustomerTable.getModel());
 
         viewCustomerTable.setRowSorter(rowSorter);
@@ -85,7 +87,9 @@ public class View_Customers_GUI extends JFrame {
                 //checking to see if a customer has been selected
                 if (currentRow == -1) {
                     JOptionPane.showMessageDialog(rootPane, "Please choose a customer to delete");
-                } else if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(View_Customers_GUI.this, "Are you sure you want to delete the customer?", "Delete", JOptionPane.OK_CANCEL_OPTION)) {
+                }
+                //if a customer has been selected, this will delete them
+                else if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(View_Customers_GUI.this, "Are you sure you want to delete the customer?", "Delete", JOptionPane.OK_CANCEL_OPTION)) {
                     boolean deleted = MovieDB.customerModel.deleteRow(currentRow);
                     if (deleted) {
                         MovieDB.loadAllTables();

@@ -12,7 +12,6 @@ public class Sales_GUI extends JFrame {
     private JPanel rootPanel;
     private JTable viewSalesTable;
     private JTextField searchTextField;
-    private JButton cashOutSaleButton;
     private JButton exitButton;
 
     public Sales_GUI(Home_GUI home_gui) {

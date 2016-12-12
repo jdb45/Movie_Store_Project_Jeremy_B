@@ -5,7 +5,6 @@ import java.security.acl.LastOwnerException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//TODO create a method to update just the customer sales can be done by making a method with just the sales! dont forget!
 public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
 
@@ -143,7 +142,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
 
     public boolean insertRowSales(String date, String movieTitle, Double salePrice, Double saleTotal, Double customerPay,
-                                  String customerPhoneNumber) {
+                                  String moviePK, String customerPhoneNumber) {
 
         try {
             //inserting a new row with the information
@@ -154,6 +153,8 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             resultSet.updateDouble(MovieDB.SALES_PRICE_COLUMN, salePrice);
             resultSet.updateDouble(MovieDB.SALES_TOTAL_COLUMN, saleTotal);
             resultSet.updateDouble(MovieDB.SALES_CUSTOMER_PAY_COLUMN, customerPay);
+            resultSet.updateString(MovieDB.MOVIE_PK_COLUMN, moviePK);
+            resultSet.updateBoolean(MovieDB.DONATION_COLUMN, false);
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();

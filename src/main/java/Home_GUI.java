@@ -19,6 +19,9 @@ public class Home_GUI extends JFrame {
     private JButton salesButton;
     private JButton cashOutCustomerButton;
     private JButton quitButton;
+    public static String getTitle;
+    public static String getPN;
+    public static String getMovieID;
 
     public Home_GUI() {
         super("Movie Store");
@@ -34,6 +37,36 @@ public class Home_GUI extends JFrame {
         viewCustomers();
         removeCustomers();
         sales();
+        MovieDB.checkDonation();
+        int yesInt = 0;
+        String yes = "";
+
+        for(int i = 0 ; i < MovieDB.donationList.size() ; i++) {
+            int hey = (int) MovieDB.donationList.get(i);
+
+            for(int x = 0 ; x < MovieDB.movieModel.getRowCount() ; x++){
+                yes = (String) MovieDB.movieModel.getValueAt(x, 0);
+
+                yesInt = Integer.parseInt(yes);
+                if (yesInt == hey) {
+                    java.util.Date dateNow = new java.util.Date();
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                    String todayDate = formatter.format(dateNow);
+                    getTitle = (String) MovieDB.movieModel.getValueAt(x, 1);
+                    getPN = (String) MovieDB.movieModel.getValueAt(x, 7);
+                    getMovieID = (String) MovieDB.movieModel.getValueAt(x, 0);
+
+                    if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(Home_GUI.this, "The movie with the ID: " +
+                            MovieDB.donationList.get(i).toString() + " has been in the inventory for over a year, would you like to donate it?", "Donate", JOptionPane.YES_NO_OPTION))
+                    {
+                        MovieDB.salesModel.insertRowSales(todayDate, getTitle, 0.0, 0.0, 0.0, getMovieID, getPN);
+                        MovieDB.movieModel.deleteRow(x);
+                        MovieDB.updateDonation();
+                    }
+                }
+            }
+            MovieDB.loadAllTables();
+        }
 
     }
 

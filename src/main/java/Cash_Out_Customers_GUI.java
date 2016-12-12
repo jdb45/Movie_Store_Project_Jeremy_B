@@ -97,9 +97,11 @@ public class Cash_Out_Customers_GUI extends JFrame{
                     String pickedUpMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 4).toString();
                     String totalMoney = (String) MovieDB.customerModel.getValueAt(currentRow, 5).toString();
                     double updateCurrentMoney = Double.parseDouble(currentMoney);
+                    updatePickedUpMoneyDouble = Math.round(updatePickedUpMoneyDouble * 100.0) / 100.0;
                     updatePickedUpMoneyDouble = Double.parseDouble(pickedUpMoney);
                     updatePickedUpMoneyDouble += updateCurrentMoney;
                     updateTotalMoneyDouble = Double.parseDouble(totalMoney);
+                    updateTotalMoneyDouble = Math.round(updateTotalMoneyDouble * 100.0) / 100.0;
 
 
                      if (currentMoney.equals("0.0")) {

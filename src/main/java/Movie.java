@@ -13,7 +13,6 @@ public class Movie {
     private String movieTitle;
     private String movieYear;
     private double moviePrice;
-    //private String moviePrice;
     private String movieDate;
     private String movieFormat;
     private String upcBarcode;
@@ -45,7 +44,7 @@ public class Movie {
         return "Movie title: " + movieTitle + "\n" +
                "Movie price: $"  + moviePrice + "\n" +
                "Movie format: " + movieFormat + "\n" +
-                "Date: " + todayDate + "\n"+
+                "Date sold: " + todayDate + "\n"+
                 "Customer code: " + customerPhoneNumber + "\n"+
                 "Tax: $" + tax + "\n"+
                 "Total: $"+ total;

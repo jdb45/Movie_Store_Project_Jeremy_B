@@ -17,6 +17,8 @@ public class Sell_Movie_GUI extends JFrame{
     public static double pickedUpMoneyDouble;
     public static double totalMoneyDouble;
 
+    //TODO set percent customer pay!
+
     DefaultListModel<Movie> movieListModel = new DefaultListModel<>();
     Movie newMovie = null;
 
@@ -41,6 +43,7 @@ public class Sell_Movie_GUI extends JFrame{
         String movieFormat = (String) View_Movies_GUI.list.get(5);
         String upcBarcode = (String) View_Movies_GUI.list.get(6);
         customerPhoneNumber = (String) View_Movies_GUI.list.get(7);
+        String bargainCheck = (String) View_Movies_GUI.list.get(8);
 
         MovieDB.loadSelectedCustomer();
         String currentMoneyString = (String) MovieDB.selectModel.getValueAt(0, 3).toString();
@@ -53,6 +56,20 @@ public class Sell_Movie_GUI extends JFrame{
         double moviePrice;
 
         moviePrice = Double.parseDouble(moviePriceHold);
+
+        if(bargainCheck.equalsIgnoreCase("true") && movieFormat.equalsIgnoreCase("DVD")){
+            moviePrice = 2;
+        }
+        else if (bargainCheck.equalsIgnoreCase("true") && movieFormat.equalsIgnoreCase("Blu-Ray"))
+        {
+            moviePrice = 5;
+        }
+
+        else if (bargainCheck.equalsIgnoreCase("true") && movieFormat.equalsIgnoreCase("VHS")){
+
+            moviePrice = 1;
+        }
+
 
         double tax = 0.0688;
         double total = moviePrice;
@@ -73,12 +90,13 @@ public class Sell_Movie_GUI extends JFrame{
         double finalTotal = total;
         double finalCustomerPay = customerPay;
 
+        double finalMoviePrice = moviePrice;
         completeSaleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                boolean insertedRow = MovieDB.salesModel.insertRowSales(todayDate, movieTitle, moviePrice, finalTotal, finalCustomerPay,
-                        customerPhoneNumber);
+                boolean insertedRow = MovieDB.salesModel.insertRowSales(todayDate, movieTitle, finalMoviePrice, finalTotal, finalCustomerPay,
+                       ID, customerPhoneNumber);
 
                 //checking to make sure the data was entered in
                 if (!insertedRow) {

@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
-//TODO set bargain bin prices!
 
 public class MovieDB {
 
@@ -41,7 +40,7 @@ public class MovieDB {
 
     //setting columns for the movie table
     public final static String MOVIE_TABLE_NAME = "movies";
-    public final static String MOVIE_PK_COLUMN = "id";
+    public final static String MOVIE_PK_COLUMN = "movie_id";
     public final static String MOVIE_TITLE_COLUMN = "movie_title";
     public final static String MOVIE_YEAR_COLUMN = "movie_year";
     public final static String MOVIE_PRICE_COLUMN = "movie_price";
@@ -57,6 +56,7 @@ public class MovieDB {
     public final static String SALES_PRICE_COLUMN = "sales_price";
     public final static String SALES_TOTAL_COLUMN = "total_sales";
     public final static String SALES_CUSTOMER_PAY_COLUMN = "customer_pay";
+    public final static String DONATION_COLUMN = "donated";
 
 
     public static Movie_StoreDB_DataModel customerModel;
@@ -65,6 +65,8 @@ public class MovieDB {
     public static Movie_StoreDB_DataModel selectModel;
 
     public static int getID;
+    public static int donationID;
+    public static ArrayList donationList = new ArrayList();
 
 
     public static void main(String[] args) {
@@ -87,7 +89,7 @@ public class MovieDB {
 }
 
     public static void checkBargain() {
-        
+
         for (int i = 0; i < movieModel.getRowCount(); i++) {
             String hold = movieModel.getValueAt(i, 4).toString();
             String IDString = movieModel.getValueAt(i, 0).toString();
@@ -106,10 +108,45 @@ public class MovieDB {
 
 
                 if (movieDate.after(today)) {
-                    System.out.println("FALSE");
-                } else {
+
+                }
+                else {
+
                     updateBargainBin();
-                    System.out.println("TRUE");
+
+                }
+            } catch (ParseException y) {
+
+            }
+            loadAllTables();
+        }
+    }
+
+    public static void checkDonation() {
+
+        for (int i = 0; i < movieModel.getRowCount(); i++) {
+            String hold = movieModel.getValueAt(i, 4).toString();
+            String IDString = movieModel.getValueAt(i, 0).toString();
+            donationID = Integer.parseInt(IDString);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            java.util.Date movieDate;
+            java.util.Date today = Calendar.getInstance().getTime();
+            Calendar calendarDate = Calendar.getInstance();
+
+
+            try {
+                calendarDate.setTime(formatter.parse(hold));
+                calendarDate.add(Calendar.DATE, 365);  // number of days to add
+                hold = formatter.format(calendarDate.getTime());
+                movieDate = formatter.parse(hold);
+
+
+                if (movieDate.after(today)) {
+
+                }
+                else {
+                    donationList.add(donationID);
+
                 }
             } catch (ParseException y) {
 
@@ -181,7 +218,7 @@ public class MovieDB {
     }
     public static boolean updateBargainBin() {
         try {
-            String insertSQL = "UPDATE movies SET bargain_bin = ? WHERE id = ? ";
+            String insertSQL = "UPDATE movies SET bargain_bin = ? WHERE movie_id = ? ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setBoolean(1, true);
             psInsert.setInt(2, getID);
@@ -195,6 +232,24 @@ public class MovieDB {
             return false;
         }
     }
+
+    public static boolean updateDonation() {
+        try {
+            String insertSQL = "UPDATE sales SET donated = ? WHERE movie_id = ? ";
+            PreparedStatement psInsert = conn.prepareStatement(insertSQL);
+            psInsert.setBoolean(1, true);
+            psInsert.setString(2, Home_GUI.getMovieID);
+            psInsert.executeUpdate();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading tables");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public static boolean insertCustomerMoney() {
         try {
@@ -307,7 +362,7 @@ public class MovieDB {
             if (!salesTableExists()){
                 //Create tables in the database
                 String createSalesTableSQL = "CREATE TABLE " + SALES_TABLE_NAME + " (" + SALES_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + SALES_DATE_COLUMN + " VARCHAR(11), "  + MOVIE_TITLE_COLUMN + " VARCHAR(75)," + SALES_PRICE_COLUMN + " DOUBLE , " +
-                        SALES_TOTAL_COLUMN + " DOUBLE , "+  SALES_CUSTOMER_PAY_COLUMN + " DOUBLE , " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + SALES_PK_COLUMN + "))";
+                        SALES_TOTAL_COLUMN + " DOUBLE , "+  SALES_CUSTOMER_PAY_COLUMN + " DOUBLE , " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + MOVIE_PK_COLUMN + " VARCHAR (10000), " + DONATION_COLUMN + " BIT (1), " + " PRIMARY KEY(" + SALES_PK_COLUMN + "))";
                 System.out.println(createSalesTableSQL);
                 statementMovie.executeUpdate(createSalesTableSQL);
 

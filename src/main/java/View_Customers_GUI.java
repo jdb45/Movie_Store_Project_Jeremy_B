@@ -7,6 +7,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/*Jeremy B
+* This class is used to view, edit, search and delete customers*/
 
 
 public class View_Customers_GUI extends JFrame {

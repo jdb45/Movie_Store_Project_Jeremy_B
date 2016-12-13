@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*Jeremy B
+* This class is used to cash out the customer when they collect their money*/
 public class Cash_Out_Customers_GUI extends JFrame{
     private JPanel rootPanel;
     private JTable cashOutCustomersTable;

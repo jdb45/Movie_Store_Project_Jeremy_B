@@ -3,6 +3,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/*Jeremy B
+* This class is the main class for the database. It is used to connect and close the database.
+* Create tables, add and edit values */
+
+//used parts of the cube project to help me create this dat model
 public class MovieDB {
 
     //the connection string to the database

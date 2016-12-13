@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/*Jeremy B
+* This class is used to add customers to the database*/
 
 public class Add_Customers_GUI extends JFrame {
     private JPanel rootPanel;

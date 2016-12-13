@@ -2,6 +2,11 @@ import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*Jeremy B
+* This class is used to set the data models and used to add and delete rows in tables*/
+
+
+//used parts of the cube project to help me create this dat model
 public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
 

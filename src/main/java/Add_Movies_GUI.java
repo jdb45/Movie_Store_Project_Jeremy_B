@@ -7,7 +7,8 @@ import java.util.Date;
 
 
 /**
- * Created by Jeremy on 11/28/16.
+ * Created by Jeremy B.
+ * This class is used to add movies to the database
  */
 public class Add_Movies_GUI extends JFrame{
     private JPanel rootPanel;

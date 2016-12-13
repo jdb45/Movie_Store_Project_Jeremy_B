@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-//TODO make method with donation code
+/*
+* This class is used as the home class when the app is started  it has all the buttons to get to all the forms */
+
 public class Home_GUI extends JFrame {
     private JPanel rootPanel;
     private JButton addMovieButton;
@@ -20,6 +22,8 @@ public class Home_GUI extends JFrame {
     public static String getTitle;
     public static String getPN;
     public static String getMovieID;
+    public int idInt = 0;
+    public String idString = "";
 
     public Home_GUI() {
         super("Movie Store");
@@ -36,17 +40,20 @@ public class Home_GUI extends JFrame {
         removeCustomers();
         sales();
         MovieDB.checkDonation();
-        int yesInt = 0;
-        String yes = "";
+        checkIfDonated();
+
+    }
+
+    public void checkIfDonated(){
 
         for(int i = 0 ; i < MovieDB.donationList.size() ; i++) {
-            int hey = (int) MovieDB.donationList.get(i);
+            int holdInt = (int) MovieDB.donationList.get(i);
 
             for(int x = 0 ; x < MovieDB.movieModel.getRowCount() ; x++){
-                yes = (String) MovieDB.movieModel.getValueAt(x, 0);
+                idString = (String) MovieDB.movieModel.getValueAt(x, 0);
 
-                yesInt = Integer.parseInt(yes);
-                if (yesInt == hey) {
+                idInt = Integer.parseInt(idString);
+                if (idInt == holdInt) {
                     java.util.Date dateNow = new java.util.Date();
                     SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                     String todayDate = formatter.format(dateNow);
@@ -67,8 +74,6 @@ public class Home_GUI extends JFrame {
         }
 
     }
-
-
     public void quit() {
         quitButton.addActionListener(new ActionListener() {
             @Override

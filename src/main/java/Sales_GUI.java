@@ -6,6 +6,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/*Jeremy B
+* This class is used as a way to view all of the transactions of the moves, from sales, to moves that have been donated*/
 
 public class Sales_GUI extends JFrame {
 

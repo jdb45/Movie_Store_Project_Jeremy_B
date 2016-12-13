@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+/*Jeremy B
+* This class is used to view, delete, search, and sell movies*/
 
 public class View_Movies_GUI extends JFrame {
     private JPanel rootPanel;

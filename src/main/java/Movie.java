@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/*Jeremy B
+* This class is used to cerat objects for movies */
 public class Movie {
 
     private String ID;

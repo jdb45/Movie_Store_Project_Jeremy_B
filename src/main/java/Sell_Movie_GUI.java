@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*Jeremy B
+* This class is used as a finalizer to complete the sale and review the information about the sale*/
+
 public class Sell_Movie_GUI extends JFrame{
     private JPanel rootPanel;
     private JButton completeSaleButton;

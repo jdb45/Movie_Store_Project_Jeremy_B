@@ -45,14 +45,15 @@ public class Home_GUI extends JFrame {
     }
 
     public void checkIfDonated(){
-
+        //getting the values from the movies that can be donated
         for(int i = 0 ; i < MovieDB.donationList.size() ; i++) {
             int holdInt = (int) MovieDB.donationList.get(i);
-
+            //getting the values form the datamodel
             for(int x = 0 ; x < MovieDB.movieModel.getRowCount() ; x++){
                 idString = (String) MovieDB.movieModel.getValueAt(x, 0);
 
                 idInt = Integer.parseInt(idString);
+                //if theres match give the user the option to donate it or not
                 if (idInt == holdInt) {
                     java.util.Date dateNow = new java.util.Date();
                     SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -64,15 +65,15 @@ public class Home_GUI extends JFrame {
                     if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(Home_GUI.this, "The movie with the ID: " +
                             MovieDB.donationList.get(i).toString() + " has been in the inventory for over a year, would you like to donate it?", "Donate", JOptionPane.YES_NO_OPTION))
                     {
+                        //setting the sales model and removing the movie from the inventory
                         MovieDB.salesModel.insertRowSales(todayDate, getTitle, 0.0, 0.0, 0.0, getMovieID, getPN);
                         MovieDB.movieModel.deleteRow(x);
                         MovieDB.updateDonation();
                     }
                 }
             }
-            MovieDB.loadAllTables();
         }
-
+        MovieDB.loadAllTables();
     }
     public void quit() {
         quitButton.addActionListener(new ActionListener() {
@@ -87,7 +88,7 @@ public class Home_GUI extends JFrame {
 
     }
 
-
+    //each of of these action listeners are used to open each new form
     public void addCustomer(){
         addCustomerButton.addActionListener(new ActionListener() {
             @Override

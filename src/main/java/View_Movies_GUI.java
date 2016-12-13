@@ -18,7 +18,7 @@ public class View_Movies_GUI extends JFrame {
     private JButton sellMovieButton;
     private JButton deleteButton;
     //setting some static variables
-    public static boolean test;
+    public static boolean movieEdit;
     public static ArrayList<Object> list = new ArrayList<>();
     public static int selectedRowDelete;
 
@@ -32,7 +32,7 @@ public class View_Movies_GUI extends JFrame {
         exit();
         sellMovie();
         deleteMovie();
-        test = true;
+        movieEdit = true;
         //setting the table models
         movieTable.setGridColor(Color.BLACK);
         movieTable.setModel(MovieDB.movieModel);
@@ -79,7 +79,7 @@ public class View_Movies_GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 View_Movies_GUI.this.dispose();
-                test = false;
+                movieEdit = false;
             }
         });
     }
@@ -119,7 +119,7 @@ public class View_Movies_GUI extends JFrame {
                 //initializing the list
                 list = new ArrayList<Object>();
 
-                //going through each value assing each value to the list to be moved to the next form
+                //going through each value assigning each value to the list to be moved to the next form
                 for(int row = 0; row < movieTable.getRowCount(); row++) {
                     if(row == currentRow) {
                         for (int column = 0; column < movieTable.getColumnCount(); column++) {

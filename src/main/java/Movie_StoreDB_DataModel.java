@@ -6,7 +6,7 @@ import java.sql.SQLException;
 * This class is used to set the data models and used to add and delete rows in tables*/
 
 
-//used parts of the cube project to help me create this dat model
+//used parts of the cube project to help me create this data model
 public class Movie_StoreDB_DataModel extends AbstractTableModel {
 
 
@@ -171,12 +171,12 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
     }
     //setting the edited values of the cells that are being edited
     //TODO make this not have to be hard coded and not look awful
+
     @Override
     public void setValueAt(Object newValue, int row, int col)
     {
-
         try {
-            if (View_Movies_GUI.test){
+            if (View_Movies_GUI.movieEdit){
                 if (col == 1) {
                     String newString = newValue.toString();
                     resultSet.absolute(row + 1);
@@ -222,13 +222,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             }
             if (View_Customers_GUI.customerEdit){
 
-                if (col == 0) {
-                    String newString = newValue.toString();
-                    resultSet.absolute(row + 1);
-                    resultSet.updateString(MovieDB.CUSTOMER_CODE_COLUMN, newString);
-                    resultSet.updateRow();
-                }
-                else if (col == 1) {
+                if (col == 1) {
                     String newString = newValue.toString();
                     resultSet.absolute(row + 1);
                     resultSet.updateString(MovieDB.FIRST_NAME_COLUMN, newString);
@@ -244,9 +238,8 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             }
 
         }catch (SQLException e){
-
+            System.out.println("error changing rating " + e);
         }
-
     }
 
     //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.

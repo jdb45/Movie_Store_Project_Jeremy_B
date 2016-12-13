@@ -19,7 +19,7 @@ public class Sell_Movie_GUI extends JFrame{
     public static double pickedUpMoneyDouble;
     public static double totalMoneyDouble;
 
-    //TODO set percent customer pay!
+    //TODO let user set percent customer receives!
 
     //getting a movie variable
     Movie newMovie = null;
@@ -93,7 +93,7 @@ public class Sell_Movie_GUI extends JFrame{
         newMovie = new Movie(ID, movieTitle, movieYear, moviePrice, todayDate, movieFormat, upcBarcode, customerPhoneNumber, tax, total);
         //setting the text area
         saleTextArea.append(newMovie.toString());
-        //assing final values
+        //assigning final values
         double finalTotal = total;
         double finalCustomerPay = customerPay;
         double finalMoviePrice = moviePrice;

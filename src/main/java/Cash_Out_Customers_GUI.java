@@ -13,7 +13,6 @@ public class Cash_Out_Customers_GUI extends JFrame{
     private JPanel rootPanel;
     private JTable cashOutCustomersTable;
     private JTextField searchField;
-    private JButton searchButton;
     private JButton cashOutButton;
     private JButton exitButton;
     public static String selectedCustomerPN;

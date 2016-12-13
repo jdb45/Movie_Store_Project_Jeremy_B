@@ -7,7 +7,7 @@ import java.util.*;
 * This class is the main class for the database. It is used to connect and close the database.
 * Create tables, add and edit values */
 
-//used parts of the cube project to help me create this dat model
+//used parts of the cube project to help me create this data model
 public class MovieDB {
 
     //the connection string to the database
@@ -228,7 +228,7 @@ public class MovieDB {
     public static boolean updateBargainBin() {
         try {
             //using the prepared statement to set the values of bargain bin to true of it matches the current ID
-            String insertSQL = "UPDATE movies SET bargain_bin = ? WHERE movie_id = ? ";
+            String insertSQL = "UPDATE movies SET bargain_bin = (?) WHERE movie_id = (?) ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setBoolean(1, true);
             psInsert.setInt(2, getID);
@@ -246,7 +246,7 @@ public class MovieDB {
     public static boolean updateDonation() {
         try {
             //using the prepared statement to set the values of donated column to true of it matches the current ID
-            String insertSQL = "UPDATE sales SET donated = ? WHERE movie_id = ? ";
+            String insertSQL = "UPDATE sales SET donated = (?) WHERE movie_id = (?) ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setBoolean(1, true);
             psInsert.setString(2, Home_GUI.getMovieID);
@@ -265,7 +265,7 @@ public class MovieDB {
     public static boolean insertCustomerMoney() {
         try {
             //updating the customer money after a movie has sold
-            String insertSQL = "UPDATE customers SET money_not_collected = ?, total_sales = ? WHERE phone_number = ? ";
+            String insertSQL = "UPDATE customers SET money_not_collected = (?), total_sales = (?) WHERE phone_number = (?) ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setDouble(1, Sell_Movie_GUI.currentMoneyDouble);
             psInsert.setDouble(2, Sell_Movie_GUI.totalMoneyDouble);
@@ -284,7 +284,7 @@ public class MovieDB {
     public static boolean updateCustomerMoney() {
         try {
             //updating the customer after they have cashed out using a prepared statement
-            String insertSQL = "UPDATE customers SET money_not_collected = ?, money_collected = ?, total_sales = ? WHERE phone_number = ? ";
+            String insertSQL = "UPDATE customers SET money_not_collected = (?), money_collected = (?), total_sales = (?) WHERE phone_number = (?) ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
             psInsert.setDouble(1, 0);
             psInsert.setDouble(2, Cash_Out_Customers_GUI.updatePickedUpMoneyDouble);

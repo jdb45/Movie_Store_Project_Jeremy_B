@@ -60,16 +60,16 @@ public class Sell_Movie_GUI extends JFrame{
 
         moviePrice = Double.parseDouble(moviePriceHold);
         //switching the price for bargain dvds
-        if(bargainCheck.equalsIgnoreCase("true") && movieFormat.equalsIgnoreCase("DVD")){
+        if(bargainCheck.equalsIgnoreCase("yes") && movieFormat.equalsIgnoreCase("DVD")){
             moviePrice = 2;
         }
         //changing the price for bargain Blu rays
-        else if (bargainCheck.equalsIgnoreCase("true") && movieFormat.equalsIgnoreCase("Blu-Ray"))
+        else if (bargainCheck.equalsIgnoreCase("yes") && movieFormat.equalsIgnoreCase("Blu-Ray"))
         {
             moviePrice = 5;
         }
         //changing the price for bargain VHS
-        else if (bargainCheck.equalsIgnoreCase("true") && movieFormat.equalsIgnoreCase("VHS")){
+        else if (bargainCheck.equalsIgnoreCase("yes") && movieFormat.equalsIgnoreCase("VHS")){
 
             moviePrice = 1;
         }

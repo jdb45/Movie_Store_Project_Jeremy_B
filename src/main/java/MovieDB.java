@@ -230,7 +230,7 @@ public class MovieDB {
             //using the prepared statement to set the values of bargain bin to true of it matches the current ID
             String insertSQL = "UPDATE movies SET bargain_bin = (?) WHERE movie_id = (?) ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
-            psInsert.setBoolean(1, true);
+            psInsert.setString(1, "yes");
             psInsert.setInt(2, getID);
             psInsert.executeUpdate();
             return true;
@@ -248,7 +248,7 @@ public class MovieDB {
             //using the prepared statement to set the values of donated column to true of it matches the current ID
             String insertSQL = "UPDATE sales SET donated = (?) WHERE movie_id = (?) ";
             PreparedStatement psInsert = conn.prepareStatement(insertSQL);
-            psInsert.setBoolean(1, true);
+            psInsert.setString(1, "yes");
             psInsert.setString(2, Home_GUI.getMovieID);
             psInsert.executeUpdate();
             return true;
@@ -365,8 +365,8 @@ public class MovieDB {
             //checking if the movies table exists
             if (!moviesTableExists()){
                 //Create tables in the database
-                String createMovieTableSQL = "CREATE TABLE " + MOVIE_TABLE_NAME + " (" + MOVIE_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + MOVIE_YEAR_COLUMN + " VARCHAR (4), " +
-                        MOVIE_PRICE_COLUMN + " DOUBLE , " +  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + MOVIE_BARGAIN_BIN_COLUMN + " BIT (1), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
+                String createMovieTableSQL = "CREATE TABLE " + MOVIE_TABLE_NAME + " (" + MOVIE_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT, " + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + MOVIE_YEAR_COLUMN + " VARCHAR (4), " +
+                        MOVIE_PRICE_COLUMN + " DOUBLE , " +  MOVIE_DATE_COLUMN + " VARCHAR(11), " + MOVIE_FORMAT_COLUMN + " VARCHAR(10), " + MOVIE_UPC_COLUMN + " VARCHAR (12), " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + MOVIE_BARGAIN_BIN_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + MOVIE_PK_COLUMN + "))";
                 System.out.println(createMovieTableSQL);
                 statementMovie.executeUpdate(createMovieTableSQL);
 
@@ -376,8 +376,8 @@ public class MovieDB {
             //checking if the sales table exists
             if (!salesTableExists()){
                 //Create tables in the database
-                String createSalesTableSQL = "CREATE TABLE " + SALES_TABLE_NAME + " (" + SALES_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT,  " + SALES_DATE_COLUMN + " VARCHAR(11), "  + MOVIE_TITLE_COLUMN + " VARCHAR(75)," + SALES_PRICE_COLUMN + " DOUBLE , " +
-                        SALES_TOTAL_COLUMN + " DOUBLE , "+  SALES_CUSTOMER_PAY_COLUMN + " DOUBLE , " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + MOVIE_PK_COLUMN + " VARCHAR (10000), " + DONATION_COLUMN + " BIT (1), " + " PRIMARY KEY(" + SALES_PK_COLUMN + "))";
+                String createSalesTableSQL = "CREATE TABLE " + SALES_TABLE_NAME + " (" + SALES_PK_COLUMN + " INT NOT NULL AUTO_INCREMENT, " + SALES_DATE_COLUMN + " VARCHAR(11), "  + MOVIE_TITLE_COLUMN + " VARCHAR(75), " + SALES_PRICE_COLUMN + " DOUBLE , " +
+                        SALES_TOTAL_COLUMN + " DOUBLE , "+  SALES_CUSTOMER_PAY_COLUMN + " DOUBLE , " + CUSTOMER_CODE_COLUMN + " VARCHAR (10), " + MOVIE_PK_COLUMN + " VARCHAR (10000), " + DONATION_COLUMN + " VARCHAR (10), " + " PRIMARY KEY(" + SALES_PK_COLUMN + "))";
                 System.out.println(createSalesTableSQL);
                 statementMovie.executeUpdate(createSalesTableSQL);
 

@@ -128,7 +128,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, movieDate);
             resultSet.updateString(MovieDB.MOVIE_FORMAT_COLUMN, movieFormat);
             resultSet.updateString(MovieDB.MOVIE_UPC_COLUMN, movieUPC);
-            resultSet.updateBoolean(MovieDB.MOVIE_BARGAIN_BIN_COLUMN, false);
+            resultSet.updateString(MovieDB.MOVIE_BARGAIN_BIN_COLUMN, "no");
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();
@@ -156,7 +156,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             resultSet.updateDouble(MovieDB.SALES_TOTAL_COLUMN, saleTotal);
             resultSet.updateDouble(MovieDB.SALES_CUSTOMER_PAY_COLUMN, customerPay);
             resultSet.updateString(MovieDB.MOVIE_PK_COLUMN, moviePK);
-            resultSet.updateBoolean(MovieDB.DONATION_COLUMN, false);
+            resultSet.updateString(MovieDB.DONATION_COLUMN, "no");
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();
@@ -198,13 +198,6 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
                     resultSet.updateRow();
                 }
 
-                else if (col == 4) {
-                    String newString = newValue.toString();
-                    resultSet.absolute(row + 1);
-                    resultSet.updateString(MovieDB.MOVIE_DATE_COLUMN, newString);
-                    resultSet.updateRow();
-                }
-
                 else if (col == 5) {
                     String newString = newValue.toString();
                     resultSet.absolute(row + 1);
@@ -238,7 +231,7 @@ public class Movie_StoreDB_DataModel extends AbstractTableModel {
             }
 
         }catch (SQLException e){
-            System.out.println("error changing rating " + e);
+            System.out.println("Error changing value " + e);
         }
     }
 
